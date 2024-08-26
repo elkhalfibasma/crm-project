@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Conversations</title>
+    <style>
+        /* Include any additional styles or modify existing ones as needed */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-bar {
+            background-color: #031224;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-bar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-bar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-bar .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .nav-bar .nav-links a:hover {
+            color: #d4d4d4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversation-list {
+            padding: 20px;
+            background: #fefefe;
+            border-radius: 12px;
+        }
+
+        .conversation-list .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .conversation-list .header h4 {
+            font-weight: 600;
+            color: #031224;
+        }
+
+        .conversation-list .search-input {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 200px;
+        }
+
+        .conversation-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .conversation-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .conversation-item .title {
+            font-size: 1.2em;
+            color: #031224;
+        }
+
+        .conversation-item .date {
+            color: #888;
+        }
+
+        .conversation-item .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .conversation-item .actions a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .conversation-item .actions a:hover {
+            text-decoration: underline;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .conversation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .conversation-list li {
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
+            cursor: pointer;
+        }
+        .conversation-list li:last-child {
+            border-bottom: none;
+        }
+        .conversation-list li:hover {
+            background-color: #f1f1f1;
+        }
+        .participant-name {
+            font-weight: 500;
+        }
+        .last-message {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <div class="logo">
+            <i class='bx bxl-codepen'></i>
+            <a>WEBRASMA&Digital Rankin</a>
+        </div>
+
+        <div class="nav-links">
+            <a>Home</a>
+            <a href="{% url 'lead_actions' %}">Leads</a>
+            <a href="{% url 'appointments_list' %}">Appointments</a>
+            <a href="{% url 'conversation_list'%}">Discussions</a>
+        </div>
+
+        <div class="right-section">
+            <i class='bx bx-bell'></i> <!-- pour notifications -->
+            <i class='bx bx-search' id="search-icon" onclick="toggleSearch()"></i>
+            <input type="text" id="searchInput" placeholder="Rechercher..." class="search-input">
+            <script>
+                function toggleSearch() {
+                    var searchInput = document.getElementById("searchInput");
+                    searchInput.classList.toggle("show-search");
+                    searchInput.focus(); 
+                }
+            </script>
+            <div class="profile">
+                <div class="info">
+                    <a >Bienvenue {{ user.username }}</a>
+                    <i class='bx bx-chevron-down' onclick="toggleMenu()"></i>
+                </div>
+                <div id="dropdownMenu" class="dropdown-menu">
+                    <a href="#" class="logout" onclick="logout()">Déconnexion</a>
+                </div>
+            </div>
+        
+            <script>
+                function toggleMenu() {
+                    const menu = document.getElementById('dropdownMenu');
+                    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                }
+        
+                function logout() {
+                    // Logique de déconnexion
+                    window.location.href = '/logout'; // Assurez-vous que l'URL de déconnexion est correcte
+                }
+            </script>
+            
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">Your Conversations</div>
+        <ul class="conversation-list">
+            {% for conversation in conversations %}
+                <li onclick="location.href='{% url 'conversation_detail' conversation.id %}'">
+                    <span class="participant-name">{% for participant in conversation.participants.all %}{% if participant != user %}{{ participant.username }}{% endif %}{% endfor %}</span>
+                    <div class="last-message">
+                        {{ conversation.messages.last.content|truncatewords:10 }}
+                        <span class="timestamp">{{ conversation.messages.last.timestamp|date:"H:i" }}</span>
+
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+</body>
+</html>

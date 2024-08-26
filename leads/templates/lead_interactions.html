@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactions pour {{ lead.Prénom }} {{ lead.Nom }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .interaction {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .interaction:last-child {
+            border-bottom: none;
+        }
+
+        .interaction h2 {
+            font-size: 1.2em;
+            margin: 0;
+            color: #555;
+        }
+
+        .interaction p {
+            margin: 5px 0;
+            color: #777;
+        }
+
+        .interaction time {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .gmail-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #ea4335;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .form-container {
+            margin-top: 20px;
+            display: none; /* caché par défaut */
+        }
+
+        .form-container.active {
+            display: block; /* affiché lorsqu'il est actif */
+        }
+
+        .form-container form {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function toggleForm(formId) {
+            const formContainer = document.getElementById(formId);
+            formContainer.classList.toggle('active');
+        }
+
+        function toggleDetails(detailsId) {
+            const detailsContainer = document.getElementById(detailsId);
+            detailsContainer.classList.toggle('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactions pour {{ lead.Prénom }} {{ lead.Nom }}</h1>
+
+        <div class="section">
+            <h2>Historique des appels téléphoniques</h2>
+            {% if interactions_telephonique %}
+                {% for interaction in interactions_telephonique %}
+                    <div class="interaction">
+                        <h2>{{ interaction.type }}</h2>
+                        <p><strong>Contacté le :</strong> <time>{{ interaction.date }}</time></p>
+                        <button class="btn-secondary" onclick="toggleDetails('details-{{ interaction.id }}')">Voir plus</button>
+                        <div id="details-{{ interaction.id }}" class="form-container">
+                            <p><strong>Détails :</strong> {{ interaction.details }}</p>
+                            <p><strong>Durée :</strong> {{ interaction.duree }}</p>
+                            <p><strong>Commentaires :</strong> {{ interaction.commentaires }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Aucune interaction téléphonique trouvée pour ce lead.</p>
+            {% endif %}
+            <button class="btn" onclick="toggleForm('appel-form-container')">Ajouter un appel</button>
+            
+            <div id="appel-form-container" class="form-container">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="appel_form" value="1">
+                    {{ appel_form.as_p }}
+                    <button type="submit" class="btn">Enregistrer l'appel</button>
+                </form>
+            </div>
+        </div>
+        
+
+        <div class="section">
+            <h2>Interactions par Email</h2>
+            {% if interactions_email %}
+                {% for interaction in interactions_email %}
+                    <div class="interaction">
+                        <h2>{{ interaction.type }}</h2>
+                        <p><strong>Contacté le :</strong> <time>{{ interaction.date }}</time></p>
+                        <button class="btn-secondary" onclick="toggleDetails('email-details-{{ interaction.id }}')">Voir plus</button>
+                        <div id="email-details-{{ interaction.id }}" class="form-container">
+                            <p>{{ interaction.details }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Aucune interaction email trouvée pour ce lead.</p>
+            {% endif %}
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ lead.Email }}&su=Suivi de votre demande&body=Bonjour {{ lead.Prénom }}," class="gmail-link" target="_blank">
+                Envoyer un Email via Gmail
+            </a>
+        </div>
+    </div>
+</body>
+</html>
