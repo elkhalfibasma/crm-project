@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide de Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://images.unsplash.com/photo-1557318041-1ce374d55ebf?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover; 
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-around;
+            background: #00274d;
+            color: #fff;
+            padding: 10px 0;
+            border-radius: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header div {
+            cursor: pointer;
+            padding: 10px 20px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .header div:hover {
+            background: #001f3f;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.8); /* Effet glassy */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* Assurez-vous que cette valeur est la même pour toutes les sections */
+            padding: 20px; /* Ajoutez du padding pour éviter que le contenu ne touche les bords */
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title {
+            background: #808080; /* Glassy effect */
+            color: #fff;
+            padding: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .section-title:hover {
+            background: rgba(0, 0, 0, 0.7); /* Darker glassy effect on hover */
+        }
+        .section-content {
+            padding: 20px;
+            display: none;
+        }
+        .section-content.active {
+            display: block;
+        }
+        .contact-icons {
+            margin: 20px 0;
+            font-size: 1.5em;
+        }
+        .contact-icons i {
+            margin-right: 15px;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        .contact-icons i:hover {
+            color: #00274d;
+        }
+        .section-content h2 {
+            margin-top: 0;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.5); /* Glassy effect */
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 0.7em;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div id="doc-title" onclick="showSection('doc-section')">Documentation Utilisateur</div>
+        <div id="support-title" onclick="showSection('support-section')">Support Technique</div>
+    </div>
+
+    <!-- Section Documentation Utilisateur -->
+    <div id="doc-section" class="section">
+        <div class="section-title">Documentation Utilisateur</div>
+        <div class="section-content active">
+            <h2>Introduction</h2>
+            <p>Bienvenue dans la documentation utilisateur du CRM. Vous trouverez ici des guides et tutoriels pour vous aider à utiliser le système de manière efficace.</p>
+            <h3>Guide de Démarrage</h3>
+            <p>Voici comment commencer avec le CRM :</p>
+            <ul>
+                <li>Connectez-vous à votre compte.</li>
+                <li>Accédez à la page des leads.</li>
+                <li>Créez, modifiez et gérez vos leads selon vos besoins.</li>
+            </ul>
+            <!-- Ajoutez plus de contenu de documentation ici -->
+        </div>
+    </div>
+
+    <!-- Section Support Technique -->
+    <div id="support-section" class="section">
+        <div class="section-title" onclick="toggleSection('support')">
+            Support Technique
+            <i class="fas fa-headset icon"></i>
+        </div>
+        <div id="support" class="section-content">
+            <p><strong>Support Technique :</strong></p>
+            <p>Pour toute assistance technique, vous pouvez nous contacter via :</p>
+            <ul>
+                <li><i class="fas fa-envelope"></i> Email : <a href="mailto:support@webrasma.com">support@webrasma.com</a></li>
+                <li><i class="fas fa-phone"></i> Téléphone : +33 1 23 45 67 89</li>
+                <li><i class="fab fa-whatsapp"></i> WhatsApp : +33 6 12 34 56 78</li>
+                <li><i class="fas fa-comment-dots"></i> Chat en ligne : Disponible sur notre site web</li>
+            </ul>
+            <p>Nous offrons un support complet pour répondre à toutes vos questions et résoudre les problèmes techniques que vous pourriez rencontrer.</p>
+            <p><a href="#" onclick="toggleFullText('support')">Lire plus</a></p>
+            <div id="support-full" style="display: none;">
+                <p>Notre équipe de support technique est disponible pour vous aider avec toutes les questions concernant l'utilisation de notre CRM. Voici les moyens de nous contacter pour obtenir de l'aide :</p>
+                <ul>
+                    <li><strong>Email :</strong> Nous répondons généralement dans les 24 heures. Assurez-vous de fournir toutes les informations pertinentes pour une réponse rapide.</li>
+                    <li><strong>Téléphone :</strong> Disponible pendant les heures de bureau pour une assistance immédiate.</li>
+                    <li><strong>WhatsApp :</strong> Pour une assistance rapide et informelle.</li>
+                    <li><strong>Chat en Ligne :</strong> Disponible sur notre site web pour une aide instantanée.</li>
+                </ul>
+                <p><strong>FAQ :</strong> Vous trouverez peut-être des réponses à vos questions dans notre section FAQ sur le site web.</p>
+                <p><strong>Documentation :</strong> Consultez notre documentation complète pour des guides détaillés et des réponses aux questions courantes.</p>
+                <p><strong>Assistance Avancée :</strong> Pour des besoins plus complexes, contactez notre support technique dédié.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 WebRasma. Tous droits réservés.</p>
+    <p><a href="mailto:contact@webrasma.com">Contactez-nous</a></p>
+</footer>
+
+<script>
+    function showSection(sectionId) {
+        // Masquer toutes les sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.remove('active');
+            section.querySelector('.section-content').classList.remove('active');
+        });
+
+        // Afficher la section demandée
+        document.getElementById(sectionId).classList.add('active');
+        document.querySelector(`#${sectionId} .section-content`).classList.add('active');
+    }
+
+    function toggleFullText(id) {
+        const fullText = document.getElementById(id + '-full');
+        fullText.style.display = (fullText.style.display === 'none' || fullText.style.display === '') ? 'block' : 'none';
+    }
+
+    function toggleSection(id) {
+        const section = document.getElementById(id);
+        const title = section.querySelector('.section-title');
+        const content = section.querySelector('.section-content');
+
+        if (section.classList.contains('active')) {
+            section.classList.remove('active');
+            content.classList.remove('active');
+            title.setAttribute('aria-expanded', 'false');
+        } else {
+            section.classList.add('active');
+            content.classList.add('active');
+            title.setAttribute('aria-expanded', 'true');
+        }
+    }
+</script>
+
+</body>
+</html>
