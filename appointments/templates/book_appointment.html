@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réserver un Rendez-vous</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 0 10px;
+            background: url("https://images.unsplash.com/photo-1604856420566-576ba98b53cd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"), #000;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .wrapper {
+            width: 400px;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+     .input-field {
+            position: relative;
+            border-bottom: 2px solid #ccc;
+            margin: 15px 0;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #000;
+            font-size: 16px;
+            pointer-events: none;
+            transition: 0.15s ease;
+        }
+
+        .input-field input{
+            width: 100%;
+            height: 40px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #fff;
+        }
+        .input-field select {
+            width: 100%;
+            height: 40px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .input-field input:focus~label,
+        .input-field input:valid~label,
+        .input-field select:focus~label {
+            font-size: 0.8rem;
+            top: 10px;
+            transform: translateY(-120%);
+        }
+
+
+   
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: #fff;
+            color: #000;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        button {
+            background: #fff;
+            color: #000;
+            font-weight: 600;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 16px;
+            border: 2px solid transparent;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            color: #fff;
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .back-to-list {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .back-to-list a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .back-to-list a:hover {
+            text-decoration: underline;
+          color: #fff
+        }
+
+        .flatpickr-calendar {
+            background: #1d283c;
+            color: #f1f3f2;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .flatpickr-day {
+            color: #f1f3f2;
+        }
+
+        .flatpickr-day.selected,
+        .flatpickr-day.today {
+            background: #2869ff;
+            color: #fff;
+            border-radius: 50%;
+        }
+
+        .flatpickr-day:hover {
+            background: #1e54d4;
+        }
+
+        .flatpickr-confirm {
+            background-color: #2869ff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .flatpickr-confirm:hover {
+            background-color: #1e54d4;
+        }
+
+
+
+        .checkbox-wrapper input[type="checkbox"] {
+            visibility: hidden;
+            display: none;
+          }
+          
+          .checkbox-wrapper *,
+            .checkbox-wrapper ::after,
+            .checkbox-wrapper ::before {
+            box-sizing: border-box;
+            user-select: none;
+          }
+          
+          .checkbox-wrapper {
+            position: relative;
+            display: block;
+            overflow: hidden;
+          }
+          
+          .checkbox-wrapper .label {
+            cursor: pointer;
+          }
+          
+          .checkbox-wrapper .check {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            opacity: 0;
+          }
+          
+          .checkbox-wrapper .label svg {
+            vertical-align: middle;
+          }
+          
+          .checkbox-wrapper .path1 {
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            transition: .5s stroke-dashoffset;
+            opacity: 0;
+          }
+          
+          .checkbox-wrapper .check:checked + label svg g path {
+            stroke-dashoffset: 0;
+            opacity: 1;
+          }
+
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <form method="post" action="{% url 'book_appointment' %}">
+            {% csrf_token %}
+            <h2>Book Appointment</h2>
+            <div class="input-field" >
+                <select name="lead" required>
+                    <option>  </option>
+                    {% for lead in form.fields.lead.queryset %}
+                        <option value="{{ lead.id }}">{{ lead }}</option>
+                    {% endfor %}
+                </select>
+                <label for="lead">Select Lead</label>
+            </div>
+            <div class="input-field">
+                <input type="datetime-local" id="date" name="date" required>
+                <label for="date">Select Date & Time</label>
+            </div>
+            <div class="input-field">
+                <label for="id_location">Lieu:</label>
+                {{ form.location }}
+            </div>
+            
+            <div class="input-field">
+                <input type="text" id="notes" name="notes">
+                <label for="notes">Additional Notes (Optional)</label>
+            </div>
+            <div class="checkbox-wrapper">
+                <input checked="" type="checkbox" class="check" id="check1-61">
+                <label for="check1-61" class="label">                  
+                <span>Confirmé</span>
+
+                  <svg width="45" height="45" viewBox="0 0 95 95">
+                    <rect x="30" y="20" width="50" height="50" stroke="black" fill="none"></rect>
+                    <g transform="translate(0,-952.36222)">
+                      <path d="m 56,963 c -102,122 6,9 7,9 17,-5 -66,69 -38,52 122,-77 -7,14 18,4 29,-11 45,-43 23,-4" stroke="black" stroke-width="3" fill="none" class="path1"></path>
+                    </g>
+                  </svg>
+                </label>
+              </div>
+              
+              
+              
+              
+            
+            <button type="submit">Book Appointment</button>
+            <div class="back-to-list">
+                <p><a href="{% url 'appointments_list' %}">Back to Appointments List</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+
+
+</html>

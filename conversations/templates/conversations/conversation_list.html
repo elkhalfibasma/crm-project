@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Conversations</title>
+    <style>
+        /* Include any additional styles or modify existing ones as needed */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-bar {
+            background-color: #031224;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-bar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-bar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-bar .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .nav-bar .nav-links a:hover {
+            color: #d4d4d4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversation-list {
+            padding: 20px;
+            background: #fefefe;
+            border-radius: 12px;
+        }
+
+        .conversation-list .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .conversation-list .header h4 {
+            font-weight: 600;
+            color: #031224;
+        }
+
+        .conversation-list .search-input {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 200px;
+        }
+
+        .conversation-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .conversation-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .conversation-item .title {
+            font-size: 1.2em;
+            color: #031224;
+        }
+
+        .conversation-item .date {
+            color: #888;
+        }
+
+        .conversation-item .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .conversation-item .actions a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .conversation-item .actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <div class="logo">MyApp</div>
+        <div class="nav-links">
+            <a href="{% url 'conversations_list' %}">Conversations</a>
+            <a href="{% url 'notifications' %}">Notifications</a>
+            <a href="{% url 'account' %}">Account</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="conversation-list">
+            <div class="header">
+                <h4>Conversations</h4>
+                <input type="text" class="search-input" placeholder="Search conversations...">
+            </div>
+            <!-- Example conversation items -->
+            {% for conversation in conversations %}
+            <div class="conversation-item">
+                <div class="title">{{ conversation.title }}</div>
+                <div class="date">{{ conversation.date }}</div>
+                <div class="actions">
+                    <a href="{% url 'conversation_details' conversation.id %}">View</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

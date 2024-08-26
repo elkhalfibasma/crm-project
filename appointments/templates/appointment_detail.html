@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail du Rendez-vous</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        /* Importation de la police */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #031224;
+            color: #f1f3f2;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #1d283c;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .card {
+            background-color: #1d283c;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #031224;
+            color: #f1f3f2;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .btn {
+            border-radius: 4px;
+        }
+
+        .btn-warning {
+            background-color: #ff9800;
+            border-color: #ff9800;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background-color: #666;
+            border-color: #666;
+            color: #fff;
+        }
+
+        .flatpickr-confirm {
+            background-color: #2869ff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .flatpickr-confirm:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Détail du Rendez-vous</h1>
+        <div class="card mt-3">
+            <div class="card-header">
+                Rendez-vous #{{ appointment.id }}
+            </div>
+            <div class="card-body">
+                <p><strong>Lead:</strong> {{ appointment.lead.first_name }} {{ appointment.lead.last_name }}</p>
+                <p><strong>Date:</strong> {{ appointment.date|date:"Y-m-d H:i" }}</p>
+                <p><strong>Lieu:</strong> {{ appointment.location }}</p>
+                <p><strong>Notes:</strong> {{ appointment.notes }}</p>
+                <p><strong>Confirmé:</strong> {{ appointment.confirmed|yesno:"Oui,Non" }}</p>
+                <a href="{% url 'appointment_edit' appointment.id %}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <a href="{% url 'appointments_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr('#id_date', {
+                enableTime: true,
+                dateFormat: 'Y-m-d H:i',
+                time_24hr: true,
+                minDate: 'today',
+                onClose: function(selectedDates, dateStr, instance) {
+                    const okButton = document.createElement('button');
+                    okButton.innerText = 'OK';
+                    okButton.className = 'flatpickr-confirm';
+                    okButton.addEventListener('click', function() {
+                        instance.close();
+                    });
+                    instance.calendarContainer.appendChild(okButton);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+[
+  {
+    "first_name": "Alice",
+    "last_name": "Dupont",
+    "email": "alice.dupont@example.com",
+    "phone": "+33123456789",
+    "source": "LinkedIn",
+    "status": "Nouveau",
+    "note": "Potentiel élevé"
+  },
+  {
+    "first_name": "Bob",
+    "last_name": "Martin",
+    "email": "bob.martin@example.com",
+    "phone": "+33198765432",
+    "source": "Email",
+    "status": "Contacté",
+    "note": "Intéressé par les fonctionnalités avancées"
+  },
+  {
+    "first_name": "Claire",
+    "last_name": "Leroy",
+    "email": "claire.leroy@example.com",
+    "phone": "+33187654321",
+    "source": "Facebook",
+    "status": "En attente",
+    "note": "Demande de délai pour prise de décision"
+  },
+  {
+    "first_name": "David",
+    "last_name": "Bernard",
+    "email": "david.bernard@example.com",
+    "phone": "+33176543210",
+    "source": "Webinaire",
+    "status": "Nouveau",
+    "note": "Participe à des événements similaires"
+  },
+  {
+    "first_name": "Emma",
+    "last_name": "Dubois",
+    "email": "emma.dubois@example.com",
+    "phone": "+33165432109",
+    "source": "Google Ads",
+    "status": "Contacté",
+    "note": "A besoin d'une démonstration"
+  },
+  {
+    "first_name": "François",
+    "last_name": "Moreau",
+    "email": "francois.moreau@example.com",
+    "phone": "+33154321098",
+    "source": "Recommandation",
+    "status": "Nouveau",
+    "note": "Recommandé par un client existant"
+  },
+  {
+    "first_name": "Giselle",
+    "last_name": "Girard",
+    "email": "giselle.girard@example.com",
+    "phone": "+33143210987",
+    "source": "Salon",
+    "status": "En attente",
+    "note": "Intéressée mais pas de budget actuellement"
+  },
+  {
+    "first_name": "Hugo",
+    "last_name": "Rousseau",
+    "email": "hugo.rousseau@example.com",
+    "phone": "+33132109876",
+    "source": "Twitter",
+    "status": "Contacté",
+    "note": "A besoin de plus d'informations"
+  },
+  {
+    "first_name": "Isabelle",
+    "last_name": "Petit",
+    "email": "isabelle.petit@example.com",
+    "phone": "+33121098765",
+    "source": "Instagram",
+    "status": "Nouveau",
+    "note": "Envisage de changer de fournisseur"
+  },
+  {
+    "first_name": "Julien",
+    "last_name": "Durand",
+    "email": "julien.durand@example.com",
+    "phone": "+33110987654",
+    "source": "Cold Call",
+    "status": "En attente",
+    "note": "Prévoit une décision d'ici fin du mois"
+  }
+]

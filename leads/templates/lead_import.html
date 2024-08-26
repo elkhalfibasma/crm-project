@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importer des Leads</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            animation: gradientBackground 5s infinite alternate;
+        }
+
+        @keyframes gradientBackground {
+            0% { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+            100% { background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); }
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            color: #333;
+            width: 100%;
+            box-sizing: border-box;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 4px;
+            background-color: #f44336;
+            color: white;
+            display: none; /* Initially hidden */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Importer des Leads</h1>
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateFile()">
+            {% csrf_token %}
+            <input type="file" name="csv_file" id="fileInput">
+            <button type="submit">Importer</button>
+        </form>
+        <div class="alert" id="fileAlert">Le fichier doit être au format JSON !</div>
+    </div>
+
+    <script>  
+        function validateFile() {
+            var input = document.getElementById('fileInput');
+            var fileName = input.value;
+            var allowedExtensions = /(\.json)$/i;
+
+            if (!allowedExtensions.exec(fileName)) {
+                document.getElementById('fileAlert').style.display = 'block';
+                return false;
+            } else {
+                document.getElementById('fileAlert').style.display = 'none';
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
