@@ -12,57 +12,89 @@ import csv
 from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
+import openpyxl
+from django.db.models import Q
 #new
+from django.db.models.functions import TruncDate 
 from django.db.models import Count
 from django.utils.dateparse import parse_date
 from notifications.models import Notification  # Import the Notification model
 from django.http import JsonResponse
 from .api_integration import fetch_google_ads_data
 @login_required
+
+
 def lead_list(request):
-    # Récupération des filtres de statut et date
-    status_filter = request.GET.get('status', '')
-    created_at_filter = request.GET.get('created_at', None)
+    # Get status choices from the Lead model
+    statut_choices = Lead._meta.get_field('statut').choices
+    
+    # Get filters from the request
+    statut_filter = request.GET.get('statut', 'all')
+    created_at_filter = request.GET.get('crée', None)
 
-    # Comptage des leads pour chaque statut
-    status_counts = {
+    # Count leads for each status
+    statut_counts = {
         'nouveau': Lead.objects.filter(statut='nouveau').count(),
-        'contacté': Lead.objects.filter(statut='contacté').count(),
-        'converti': Lead.objects.filter(statut='converti').count(),
-        'perdu': Lead.objects.filter(statut='perdu').count(),
+        'Contacté': Lead.objects.filter(statut='Contacté').count(),
+        'Perdu': Lead.objects.filter(statut='Perdu').count(),
     }
+    
+    # Query leads and apply filters
+    leads = Lead.objects.all()
 
-    # Filtrage des leads
-    leads_query = Lead.objects.all()
-    if status_filter:
-        leads_query = leads_query.filter(statut=status_filter)
+    # Apply status filter
+    if statut_filter != 'all':
+        leads = leads.filter(statut=statut_filter)
+
+    # Apply date filter
     if created_at_filter:
         try:
             parsed_date = parse_date(created_at_filter)
             if parsed_date:
-                leads_query = leads_query.filter(crée__date=parsed_date)
+                leads = leads.annotate(date=TruncDate('crée')).filter(date=parsed_date)
         except ValueError:
-            pass  # Ignore invalid dates
+            print('Invalid date format')
 
-    # Limiter à 4 leads ajoutés aujourd'hui pour l'affichage
-    today = timezone.now().date()
-    leads_today = leads_query.filter(crée__date=today).order_by('-crée')[:4]
-
-    # Nombre total de leads pour la section 'Voir plus'
-    total_leads_today = leads_query.filter(crée__date=today).count()
-
-    # Leads en attente de suivi
+    # Query leads that are pending follow-up (not assigned)
     leads_pending_followup = Lead.objects.filter(Assigné__isnull=True)
+   
+    # Filtrer les leads pris en charge
+    leads_pris_en_charge = Lead.objects.filter(Assigné__isnull=False)
+    
+    # Filtrer les leads non pris en charge
+    leads_non_pris_en_charge = Lead.objects.filter(Assigné__isnull=True)
+    
+    # Filtrer les leads pris en charge et dont le statut est différent de 'Contacté'
+    leads_non_contactes = Lead.objects.filter(~Q(statut='Contacté'))
+    
+    # Compter le nombre de leads pris en charge
+    nombre_leads_pris_en_charge = leads_pris_en_charge.count()
+    
+    # Compter le nombre de leads non pris en charge
+    nombre_leads_non_pris_en_charge = leads_non_pris_en_charge.count()
+    
+    # Compter le nombre de leads pris en charge et non contactés
+    nombre_leads_non_contactes = leads_non_contactes.count()
+
+    # Trier les leads par date de création décroissante et limiter à 4
+    leads = leads.order_by('-crée')[:4]
+
+    # Indiquer si le bouton "Voir plus" doit être affiché
+    show_voir_plus = leads.count() == 4
 
     context = {
-        'leads': leads_today,
-        'status_choices': Lead._meta.get_field('statut').choices,
-        'status_counts': status_counts,
+        'nombre_leads_pris_en_charge': nombre_leads_pris_en_charge,
+        'nombre_leads_non_pris_en_charge': nombre_leads_non_pris_en_charge,
+        'nombre_leads_non_contactes': nombre_leads_non_contactes,
+        'leads': leads,
+        'statut_choices': statut_choices,
         'created_at_filter': created_at_filter,
+        'statut_counts': statut_counts,
         'leads_pending_followup': leads_pending_followup,
-        'total_leads_today': total_leads_today,
+        'show_voir_plus': show_voir_plus,  # Pour savoir si afficher le bouton "Voir plus"
     }
     return render(request, 'lead_list.html', context)
+
 
    
 def faq(request):
@@ -83,46 +115,72 @@ from .forms import InteractionForm
 
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Lead, Interaction
-from .forms import AppelForm, InteractionForm
+from .forms import AppelForm
+import openpyxl
+import os
 
 def interaction_view(request, lead_id):
     lead = get_object_or_404(Lead, id=lead_id)
-    
-    # Récupérer toutes les interactions existantes pour le lead
-    interactions_telephonique = Interaction.objects.filter(lead=lead, type='Téléphone')
-    interactions_email = Interaction.objects.filter(lead=lead, type='Email')
 
-    # Définir les formulaires à utiliser
-    appel_form = None
-    interaction_form = None
+    if request.method == "POST" and 'appel_form' in request.POST:
+        form = AppelForm(request.POST)
+        if form.is_valid():
+            # Sauvegarde de l'appel dans la base de données
+            appel = form.save(commit=False)
+            appel.lead = lead
+            appel.save()
 
-    if request.method == 'POST':
-        if 'appel_form' in request.POST:
-            appel_form = AppelForm(request.POST)
-            if appel_form.is_valid():
-                interaction = appel_form.save(commit=False)
-                interaction.lead = lead
-                interaction.type = 'Téléphone'  # Assurez-vous que le type est défini
-                interaction.save()
-                return redirect('interaction_view', lead_id=lead.id)
-        else:
-            interaction_form = InteractionForm(request.POST)
-            if interaction_form.is_valid():
-                interaction = interaction_form.save(commit=False)
-                interaction.lead = lead
-                interaction.save()
-                return redirect('interaction_view', lead_id=lead.id)
+            # Sauvegarde des informations dans un fichier Excel
+            file_path = save_call_to_excel(lead)
+
+            return redirect('lead_interactions', lead_id=lead.id)
     else:
-        appel_form = AppelForm()
-        interaction_form = InteractionForm()
+        form = AppelForm()
+
+    interactions_telephonique = Interaction.objects.filter(lead=lead, type="Appel")
+    interactions_email = Interaction.objects.filter(lead=lead, type="Email")
+    
+    # Chemin d'accès au fichier Excel
+    file_path = f"media/{lead.id}_interactions_appels.xlsx"
 
     return render(request, 'lead_interactions.html', {
         'lead': lead,
-        'appel_form': appel_form,
-        'interaction_form': interaction_form,
+        'appel_form': form,
         'interactions_telephonique': interactions_telephonique,
         'interactions_email': interactions_email,
+        'excel_file_path': file_path,
     })
+
+def save_call_to_excel(lead):
+    file_path = f"media/{lead.id}_interactions_appels.xlsx"
+
+    try:
+        # Ouvrir le fichier Excel existant
+        workbook = openpyxl.load_workbook(file_path)
+        sheet = workbook.active
+    except FileNotFoundError:
+        # Créer un nouveau fichier Excel s'il n'existe pas
+        workbook = openpyxl.Workbook()
+        sheet = workbook.active
+        # Créer l'en-tête
+        sheet.append(["Lead ID", "Nom", "Prénom", "Date", "Type", "Détails", "Durée", "Commentaires"])
+
+    # Ajouter les détails de l'appel dans une nouvelle ligne
+    sheet.append([
+        lead.id,
+        lead.Nom,
+        lead.Prénom,
+        lead.date,
+        "Appel",
+        lead.details,
+        lead.duree,
+        lead.commentaires,
+    ])
+
+    # Sauvegarder le fichier Excel
+    workbook.save(file_path)
+
+    return file_path
 
 
 #modification pour les notifications
@@ -211,6 +269,7 @@ def lead_assign(request, lead_id):
 def lead_actions(request):
     # Fetch leads or perform any necessary logic here
     leads = Lead.objects.all()  # Adjust the query as needed
+    
     return render(request, 'lead_actions.html', {'leads': leads})
 
 
