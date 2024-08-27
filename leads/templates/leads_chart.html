@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #leadsChartContainer {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        #leadsChart {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="leadsChartContainer">
+        <canvas id="leadsChart"></canvas>
+    </div>
+    <script>
+        const ctx = document.getElementById('leadsChart').getContext('2d');
+        const leadsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Leads non pris en charge', 'Leads pris en charge', 'Leads non contactés'],
+                datasets: [{
+                    label: 'Nombre de Leads',
+                    data: [
+                        {{ nombre_leads_non_pris_en_charge|default:0 }},
+                        {{ nombre_leads_pris_en_charge|default:0 }},
+                        {{ nombre_leads_non_contactes|default:0 }}
+                    ],
+                    backgroundColor: [
+                        'purple', // Couleur pour les leads non pris en charge
+                        'green',  // Couleur pour les leads pris en charge
+                        'orange'  // Couleur pour les leads non contactés
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>
