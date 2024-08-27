@@ -3,7 +3,7 @@ from . import views  # This imports views from the leads application
 from leads import views as lead_views
 
 urlpatterns = [
-    
+    path('test/', lead_views.leads_chart, name='leads_chart'),
     path('liste/', lead_views.lead_actions, name='lead_actions'),
     path('/', views.lead_list, name='lead_list'),
     path('<int:lead_id>/', views.lead_detail, name='lead_detail'),

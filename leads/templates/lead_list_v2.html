@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <!-- Slick JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>WEBRASMA&Digital Rankin</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <i class='bx bxl-codepen'></i> WEBRASMA&Digital Rankin
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lead_actions' %}">Leads</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'appointments_list' %}">Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'conversation_list'%}">Discussions</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <i class='bx bx-bell mr-2'></i>
+                    <i class='bx bx-search mr-2' id="search-icon" onclick="toggleSearch()"></i>
+                    <input class="form-control mr-sm-2 search-input" type="search" id="searchInput" placeholder="Rechercher..." aria-label="Search">
+                    <div class="profile dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Bienvenue {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" onclick="logout()">Déconnexion</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        <script>
+            function toggleSearch() {
+                var searchInput = document.getElementById("searchInput");
+                searchInput.classList.toggle("show-search");
+                searchInput.focus(); 
+            }
+        
+            function logout() {
+                window.location.href = '/logout'; 
+            }
+        </script>
+
+        <!-- Activity Status -->
+        <div class="status mt-4">
+            <div class="header">
+                <h4>Vos Leads</h4>
+                <br>
+            </div>
+            <div class="items-list carousel">
+                {% for lead in leads %}
+                    <div class="item">
+                        <div class="info">
+                            <div>
+                                <h5 class="text-title">{{ lead.first_name }} {{ lead.last_name }}</h5>
+                                <p class="text-body">- {{ lead.status }}</p>
+                                {% if forloop.last %}
+                                <a href="{% url 'lead_actions' %}" class="see-more">Voir plus</a>
+                                {% endif %}
+                            </div>
+                            <i class='bx bx-briefcase'></i>
+                        </div>
+                        <!-- Lien cliquable pour les détails du lead -->
+                        <a href="{% url 'lead_detail' lead.id %}" class="item-button btn btn-primary">Voir les détails</a>
+                    </div>
+                {% empty %}
+                    <p>Aucun lead disponible.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Responsive Carousel Initialization -->
+        <script>
+            $(document).ready(function(){
+                $('.carousel').slick({
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    arrows: true,
+                    dots: true,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 1
+                            }
+                        },
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 1
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1
+                            }
+                        }
+                    ]
+                });
+            });
+        </script>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <!-- Charts -->
+                {% include 'leads_chart.html' %}
+            </div>
+            <div class="col-md-6">
+                <!-- Leads en Attente de Suivi -->
+                <div class="leads-pending-followup">
+                    <div class="header">
+                        <h4>Leads en Attente de Suivi</h4>
+                    </div>
+                    {% for lead in leads_pending_followup %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p>{{ lead.first_name }} {{ lead.last_name }}</p>
+                                <a href="{% url 'lead_detail' lead.id %}" class="btn btn-primary">Voir Détails</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Aucun lead en attente de suivi.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="important-announcements mt-4">
+            <div class="header">
+                <h4>Annonces Importantes</h4>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p>
+                        Lancement d'un nouveau produit cette semaine. Soyez prêt pour la grande 
+                        <span class="read-more" onclick="toggleReadMore('announcement1')">lire plus</span>
+                        <span id="announcement1" class="more-text d-none">révélation et découvrez toutes les fonctionnalités qui vous attendent.</span>
+                    </p>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p>
+                        Une maintenance planifiée aura lieu ce dimanche. Assurez-vous de
+                        <span class="read-more" onclick="toggleReadMore('announcement2')">lire plus</span>
+                        <span id="announcement2" class="more-text d-none">sauvegarder vos données pour éviter toute perte pendant cette période.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleReadMore(id) {
+                var moreText = document.getElementById(id);
+                var readMoreLink = moreText.previousElementSibling;
+        
+                if (moreText.classList.contains('d-none')) {
+                    moreText.classList.remove('d-none');
+                    readMoreLink.textContent = 'lire moins';
+                } else {
+                    moreText.classList.add('d-none');
+                    readMoreLink.textContent = 'lire plus';
+                }
+            }
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx1 = document.getElementById('chart1').getContext('2d');
+            const chart1 = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Completed Tasks',
+                        data: [10, 20, 15, 25, 30, 40],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                    }]
+                }
+            });
+        </script>
+
+    </div>
+</body>
+
+</html>

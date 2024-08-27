@@ -65,11 +65,33 @@ def lead_list(request):
 
     # Query leads that are pending follow-up (not assigned)
     leads_pending_followup = Lead.objects.filter(assigned_to__isnull=True)
-    
+   
     # Print the number of pending follow-up leads
     print(f'Leads pending follow-up: {leads_pending_followup.count()}')
 
+
+    # Filtrer les leads pris en charge
+    leads_pris_en_charge = Lead.objects.filter(assigned_to__isnull=False)
+    
+    # Filtrer les leads non pris en charge
+    leads_non_pris_en_charge = Lead.objects.filter(assigned_to__isnull=True)
+    
+    # Filtrer les leads pris en charge et dont le statut est différent de 'Contacté'
+    leads_non_contactes = Lead.objects.filter(~Q(status='contacté'))
+    
+    # Compter le nombre de leads pris en charge
+    nombre_leads_pris_en_charge = leads_pris_en_charge.count()
+    
+    # Compter le nombre de leads non pris en charge
+    nombre_leads_non_pris_en_charge = leads_non_pris_en_charge.count()
+    
+    # Compter le nombre de leads pris en charge et non contactés
+    nombre_leads_non_contactes = leads_non_contactes.count()
+
     context = {
+        'nombre_leads_pris_en_charge': nombre_leads_pris_en_charge,
+        'nombre_leads_non_pris_en_charge': nombre_leads_non_pris_en_charge,
+        'nombre_leads_non_contactes': nombre_leads_non_contactes,
         'leads': leads,
         'status_choices': status_choices,
         'created_at_filter': created_at_filter,
@@ -311,3 +333,39 @@ class DashboardView(TemplateView):
         return context
 
 
+
+
+
+
+""" Tets """
+from django.db.models import Q
+
+from django.shortcuts import render
+from django.db.models import Q
+from .models import Lead
+
+def leads_chart(request):
+    # Filtrer les leads pris en charge
+    leads_pris_en_charge = Lead.objects.filter(assigned_to__isnull=False)
+    
+    # Filtrer les leads non pris en charge
+    leads_non_pris_en_charge = Lead.objects.filter(assigned_to__isnull=True)
+    
+    # Filtrer les leads pris en charge et dont le statut est différent de 'Contacté'
+    leads_non_contactes = Lead.objects.filter(~Q(status='Contacté'))
+    
+    # Compter le nombre de leads pris en charge
+    nombre_leads_pris_en_charge = leads_pris_en_charge.count()
+    
+    # Compter le nombre de leads non pris en charge
+    nombre_leads_non_pris_en_charge = leads_non_pris_en_charge.count()
+    
+    # Compter le nombre de leads pris en charge et non contactés
+    nombre_leads_non_contactes = leads_non_contactes.count()
+
+    # Passer les variables au template
+    return render(request, 'leads_chart.html', {
+        'nombre_leads_pris_en_charge': nombre_leads_pris_en_charge,
+        'nombre_leads_non_pris_en_charge': nombre_leads_non_pris_en_charge,
+        'nombre_leads_non_contactes': nombre_leads_non_contactes
+    })

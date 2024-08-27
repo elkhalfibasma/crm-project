@@ -7,11 +7,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>Dashboard Design | AsmrProg</title>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+
+    
     * {
         margin: 0;
         padding: 0;
@@ -733,7 +741,7 @@
     
     
     
-    </style>
+</style>
     
 </head>
 
@@ -741,54 +749,61 @@
     <div class="top-container">
 
         <!-- Navigation -->
-        <div class="nav">
-            <div class="logo">
-                <i class='bx bxl-codepen'></i>
-                <a>WEBRASMA&Digital Rankin</a>
-            </div>
-
-            <div class="nav-links">
-                <a>Home</a>
-                <a href="{% url 'lead_actions' %}">Leads</a>
-                <a href="{% url 'appointments_list' %}">Appointments</a>
-                <a href="{% url 'conversation_list'%}">Discussions</a>
-            </div>
-
-            <div class="right-section">
-                <i class='bx bx-bell'></i> <!-- pour notifications -->
-                <i class='bx bx-search' id="search-icon" onclick="toggleSearch()"></i>
-                <input type="text" id="searchInput" placeholder="Rechercher..." class="search-input">
-                <script>
-                    function toggleSearch() {
-                        var searchInput = document.getElementById("searchInput");
-                        searchInput.classList.toggle("show-search");
-                        searchInput.focus(); 
-                    }
-                </script>
-                <div class="profile">
-                    <div class="info">
-                        <a >Bienvenue {{ user.username }}</a>
-                        <i class='bx bx-chevron-down' onclick="toggleMenu()"></i>
-                    </div>
-                    <div id="dropdownMenu" class="dropdown-menu">
-                        <a href="#" class="logout" onclick="logout()">Déconnexion</a>
-                    </div>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">
+                    <i class='bx bxl-codepen'></i> WEBRASMA&Digital Rankin
+                </a>
+        
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lead_actions' %}">Leads</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'appointments_list' %}">Appointments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'conversation_list'%}">Discussions</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <i class='bx bx-bell mr-2'></i> <!-- pour notifications -->
+                        <i class='bx bx-search mr-2' id="search-icon" onclick="toggleSearch()"></i>
+                        <input class="form-control mr-sm-2 search-input" type="search" id="searchInput" placeholder="Rechercher..." aria-label="Search">
+                        <div class="profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Bienvenue {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#" onclick="logout()">Déconnexion</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            
-                <script>
-                    function toggleMenu() {
-                        const menu = document.getElementById('dropdownMenu');
-                        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-                    }
-            
-                    function logout() {
-                        // Logique de déconnexion
-                        window.location.href = '/logout'; 
-                    }
-                </script>
-                
-            </div>
+            </nav>
         </div>
+        
+        <script>
+            function toggleSearch() {
+                var searchInput = document.getElementById("searchInput");
+                searchInput.classList.toggle("show-search");
+                searchInput.focus(); 
+            }
+        
+            function logout() {
+                // Logique de déconnexion
+                window.location.href = '/logout'; 
+            }
+        </script>
+        
 
         <!-- Activity Status -->
         <div class="status">
@@ -833,41 +848,27 @@
                
                
 
-    <!-- Bottom Containers -->
-    <div class="bottom-container">
-        <div class="prog-status">
-            <div class="header">
-                <h4>Progrès et Statistiques</h4>
-                <div class="tabs">
-                    <a href="#" class="active">Aujourd'hui</a>
-                    <a href="#">Semaine</a>
-                    <a href="#">Mois</a>
-                </div>
-            </div>
-            <div class="details">
-                <div class="item">
-                    <div class="graph">
-                        <canvas id="chart1"></canvas>
-                    </div>
-                    <p>Tâches accomplies</p>
-                </div>
-                <div class="item">
-                    <div class="graph">
-                        <canvas id="chart2"></canvas>
-                    </div>
-                      <p>Réunions à Venir</p>
-                </div>
-                <div class="item">
-                    <div class="graph">
-                        <canvas id="chart3"></canvas>
-                    </div>
-                    <p>E-mails en Attente</p>
-                </div>
-            </div>
-            
-        </div>
+                <div class="bottom-container">
+                    
+        <!-- Charts -->
+        {% include 'leads_chart.html' %}
+        <!-- Charts -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div class="leads-pending-followup">
-    <<div class="leads-pending-followup">
+    <div class="leads-pending-followup">
         <div class="header">
             <h4>Leads en Attente de Suivi</h4>
         </div>
