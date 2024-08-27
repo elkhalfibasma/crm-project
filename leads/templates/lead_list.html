@@ -9,7 +9,9 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Dashboard Design | AsmrProg</title>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -858,32 +860,18 @@
         <div class="prog-status">
             <div class="header">
                 <h4>Progrès et Statistiques</h4>
-                <div class="tabs">
-                    <a href="#" class="active">Aujourd'hui</a>
-                    <a href="#">Semaine</a>
-                    <a href="#">Mois</a>
-                </div>
+                
             </div>
             <div class="details">
                 <div class="item">
-                    <div class="graph">
-                        <canvas id="chart1"></canvas>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <!-- Charts -->
+                            {% include 'leads_chart.html' %}
+                        </div>
+                        
                     </div>
-                    <p>Tâches accomplies</p>
                 </div>
-                <div class="item">
-                    <div class="graph">
-                        <canvas id="chart2"></canvas>
-                    </div>
-                      <p>Réunions à Venir</p>
-                </div>
-                <div class="item">
-                    <div class="graph">
-                        <canvas id="chart3"></canvas>
-                    </div>
-                    <p>E-mails en Attente</p>
-                </div>
-                
             </div>
             <div class="important-announcements">
                 <div class="header">
@@ -941,87 +929,18 @@
 </div>
 
 
+    
+   
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Sample charts
-        const ctx1 = document.getElementById('chart1').getContext('2d');
-        const chart1 = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Completed Tasks',
-                    data: [10, 20, 15, 30, 25, 35],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
 
-        const ctx2 = document.getElementById('chart2').getContext('2d');
-        const chart2 = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Upcoming Meetings',
-                    data: [5, 10, 8, 12, 15, 10],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        function toggleReadMore(id) {
-            var moreText = document.getElementById(id);
-            var readMoreLink = moreText.previousElementSibling;
-        
-            if (moreText.classList.contains('show')) {
-                moreText.classList.remove('show');
-                readMoreLink.textContent = 'lire plus';
-            } else {
-                moreText.classList.add('show');
-                readMoreLink.textContent = 'lire moins';
-            }
-        }
-        
-        const ctx3 = document.getElementById('chart3').getContext('2d');
-        const chart3 = new Chart(ctx3, {
-            type: 'pie',
-            data: {
-                labels: ['Email 1', 'Email 2', 'Email 3'],
-                datasets: [{
-                    label: 'Pending Emails',
-                    data: [30, 20, 50],
-                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
-                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 205, 86, 1)'],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
     </script>
     <a href="{% url 'faq' %}" class="faq-float" title="FAQ">
         <img src="https://w7.pngwing.com/pngs/193/759/png-transparent-faq-question-american-home-detectives-quilt-trail-boredgamer-faq-text-logo-united-states-thumbnail.png" alt="FAQ Icon">
-     
+        <script id="leads-data" type="application/json">
+            {{ leads_data|safe }}
+        </script>
+    
+        
 </body>
 
 </html>
