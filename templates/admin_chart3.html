@@ -1,0 +1,81 @@
+<!-- Inclure Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Inclure le plugin 3D pour Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d@1.1.0/dist/chartjs-plugin-3d.min.js"></script>
+<!-- Inclure le plugin Gradient pour Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-gradient@0.3.0/dist/chartjs-plugin-gradient.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Contexte pour le graphique 3
+        const ctx3 = document.getElementById('chart3').getContext('2d');
+
+        // Récupérer les données JSON passées depuis le template Django
+        const utilisateurs = {{ utilisateurs|safe }};  // Utilisateurs en tant que labels
+        const leadsCounts = {{ leads_counts|safe }};    // Nombre de leads par utilisateur
+
+        new Chart(ctx3, {
+            type: 'bar', // Type de graphique (barres)
+            data: {
+                labels: utilisateurs, // Noms des utilisateurs
+                datasets: [{
+                    data: leadsCounts, // Nombre de leads par utilisateur
+                    backgroundColor: function(context) {
+                        const chart = context.chart;
+                        const {ctx, chartArea} = chart;
+
+                        if (!chartArea) {
+                            // Cette condition est nécessaire pour éviter une erreur
+                            return null;
+                        }
+
+                        // Création d'un dégradé pour l'arrière-plan des barres
+                        const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                        gradient.addColorStop(0, '#FF7F50');  // Début du dégradé avec la couleur Corail
+                        gradient.addColorStop(0.5, '#6A5ACD'); // Milieu du dégradé avec la couleur Bleu Slate
+                        gradient.addColorStop(1, '#32CD32');   // Fin du dégradé avec la couleur Vert Lime
+                        return gradient;
+                    },
+                    borderColor: [
+                        '#FF6347', '#6A5ACD', '#32CD32', '#FF7F50', // Couleurs des bordures pour plus de contraste
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false  // Désactiver l'affichage de la légende
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                            }
+                        }
+                    },
+                    '3d': {
+                        enabled: true,
+                        depth: 30, // Profondeur 3D
+                        angleX: -15, // Angle X du graphique 3D
+                        angleY: 20  // Angle Y du graphique 3D
+                    },
+                    gradient: {
+                        animation: {
+                            duration: 2000,
+                            easing: 'easeInOutBounce',
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>

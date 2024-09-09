@@ -9,7 +9,9 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Dashboard Design | AsmrProg</title>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -260,11 +262,16 @@
     
     .bottom-container {
         display: flex;
-        gap: 20px;
         padding: 30px;
         
     }
-    
+    .panels-container {
+        background-color: #fff; /* Fond blanc */
+        padding: 20px; /* Espacement intérieur */
+        border-radius: 8px; /* Coins arrondis */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        margin-top: -10px;
+    }
     .bottom-container .prog-status,
     .bottom-container .popular,
     .bottom-container .upcoming {
@@ -291,7 +298,9 @@
 }
 
     .bottom-container .prog-status {
-        width: 50%;
+        width: 70%; /* Augmentez cette valeur pour élargir la section */
+        padding: 20px; /* Assurez-vous que le padding est approprié */
+        box-sizing: border-box;
     }
     
     .bottom-container .prog-status .header,
@@ -331,13 +340,16 @@
     
     .bottom-container .prog-status .details {
         display: flex;
+        width: auto;
+        gap: 20px; /* Ajoute de l'espace entre les graphiques */
         margin-bottom: 60px;
     }
-    
     .bottom-container .prog-status .details .item {
-        flex: 1;
+        flex: 1; /* Les graphiques prendront une largeur égale */
+        padding: 10px; /* Ajout d'un peu d'espace autour de chaque graphique */
+        max-width:auto;
     }
-    
+   
     .bottom-container .prog-status .details .item .graph {
         height: 140px;
         margin-bottom: 20px;
@@ -346,12 +358,6 @@
     .bottom-container .prog-status .details .item p {
         font-size: 12px;
         font-weight: 600;
-    }
-    
-    .bottom-container .prog-status .details .item:nth-child(2) {
-        padding: 0 20px;
-        border-left: 1px solid #d2d3d6;
-        border-right: 1px solid #d2d3d6;
     }
     
     .bottom-container .prog-status .class-ranking {
@@ -463,32 +469,44 @@
         font-size: 22px;
         cursor: pointer;
     }
-    
     .dropdown-menu {
         display: none;
         position: absolute;
         right: 0;
-        top: 100%;
-        background: #031224;
+        top: 116%;
+        background: #1a2b3c; /* Couleur de fond plus douce */
         color: #f1f3f2;
         border-radius: 8px;
-        padding: 10px;
-        width: 120px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 3px; /* Réduire le padding pour un espacement plus compact */
+        width: 175px; /* Largeur augmentée pour un effet plus étendu horizontalement */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Réduire l'ombre pour un effet plus subtil */
         z-index: 1000;
+        transition: all 0.3s ease;
+        font-size: 12px; /* Taille de police réduite */
     }
     
     .dropdown-menu a {
         color: #f1f3f2;
         text-decoration: none;
         display: block;
-        padding: 8px;
+        padding: 3px 3px; /* Padding ajusté pour plus de confort */
         border-radius: 4px;
+        font-weight: 400; /* Poids de texte plus fin */
+        transition: background 0.3s ease;
+        margin-bottom: 4px; /* Espace entre les liens */
     }
     
     .dropdown-menu a:hover {
-        background: #0ea5e9;
+        background: #2196f3; /* Couleur de survol plus lumineuse */
+        color: #ffffff;
     }
+    
+    .dropdown-menu a:last-child {
+         /* Trait de séparation avant le dernier élément */
+        margin-top: 1px; /* Espace supplémentaire avant le dernier lien */
+    }
+    
+    
     .details-link {
     color: #333; /* Noir foncé */
     font-weight: bold; /* Texte en gras */
@@ -610,7 +628,7 @@
         
         border-radius: 8px;
         
-        max-width: 100px; /* Largeur maximale pour le cadre principal */
+        max-width: 110%; /* Utilise toute la largeur disponible */
         margin: 20px auto; /* Centre le cadre horizontalement */
         position: relative; /* Position relative si vous avez des éléments positionnés à l'intérieur */
         z-index: 10; /* Assurez-vous qu'il est au-dessus d'autres éléments si nécessaire */
@@ -747,7 +765,138 @@
         background: #0056b3;
     }
     
+    .reminders-section {
+        margin-top: 10px; /* Réduit l'espace au-dessus de la section */
+        background-color: #fff; /* Fond blanc pour la section entière */
+        padding: 10px; /* Réduit l'espacement intérieur */
+        border-radius: 4px; /* Réduit les coins arrondis */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+    }
+    
+    
+    .reminders-section .header {
+        margin-bottom: 15px;
+    }
+    
+    .reminders-section h4 {
+        font-size: 18px;
+        color: #000;
+        border-bottom: px solid #007FFF; /* Ligne bleue foncée sous le titre */
+        padding-bottom: 10px;
+        margin-bottom: 0; /* Supprime l'espace sous le titre */
+    }
+    
+ 
+    
+    .reminder-card p {
+        margin: 5px 0;
+    }
+    .reminder-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+        max-width: 40;
+        display: flex; /* Active Flexbox */
+        justify-content: center; /* Centre le contenu horizontalement */
+        align-items: left; /* Centre le contenu verticalement */
+        flex-direction: column; /* Aligne les éléments en colonne */
+    }
+    
+    .reminder-card .btn-details {
+        background-color: #031224;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        margin-left: auto;
+    }
+    
+    .reminder-card .btn-details:hover {
+        background-color: #0056b3;
+    }
+    
+    .view-more {
+        text-align: center; /* Centrer le texte */
+        margin-top: 20px; /* Marge supérieure */
+    }
+    
+    .view-more a {
+        background-color: #8A8A00; /* Couleur de fond du bouton */
+        color: white; /* Couleur du texte */
+        font-size: 14px; /* Taille de la police */
+        padding: 10px 15px; /* Espacement interne */
+        border-radius: 5px; /* Coins arrondis */
+        text-decoration: none; /* Supprimer la décoration du texte */
+        display: inline-block; /* Assurer que le bouton ne prend que l'espace nécessaire */
+        margin-top: 10px; /* Marge au-dessus du bouton */
+        transition: background-color 0.3s; /* Animation pour la couleur de fond */
+    }
+    
+    .view-more a:hover {
+        background-color: #8A8A00; /* Couleur de fond lors du survol */
+        color: white; /* Couleur du texte lors du survol */
+    }
+    
    
+
+
+    /* Badge de Notification */
+    .notification-badge {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Style du Dropdown */
+    .dropdown-content {
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 250px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 14px;
+        display: none; /* Masqué par défaut */
+    }
+    
+    .dropdown-content ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .dropdown-content li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .dropdown-content .unread {
+        font-weight: bold;
+    }
+    
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+    
+
+
+    
     
     
     
@@ -766,35 +915,129 @@
             </div>
 
             <div class="nav-links">
-                <a>Home</a>
+                <a href= "/leads">Home</a>
                 <a href="{% url 'lead_actions' %}">Leads</a>
-                <a href="{% url 'appointments_list' %}">Appointments</a>
+                <a href="{% url 'appointments_list' %}">Rendez-vous</a>
                 <a href="{% url 'conversation_list'%}">Discussions</a>
                 <a href="{% url 'support_guide' %}">Guide de support</a>
-
             </div>
 
             <div class="right-section">
-                <i class='bx bx-bell'></i> <!-- pour notifications -->
-                <i class='bx bx-search' id="search-icon" onclick="toggleSearch()"></i>
-                <input type="text" id="searchInput" placeholder="Rechercher..." class="search-input">
-                <script>
-                    function toggleSearch() {
-                        var searchInput = document.getElementById("searchInput");
-                        searchInput.classList.toggle("show-search");
-                        searchInput.focus(); 
-                    }
-                </script>
+               
+                
+                <div style="position: relative; display: inline-block;">
+                    <i class='bx bx-bell' id="notification-icon" style="position: relative; font-size: 20px; padding: 9px; cursor: pointer; color: #f8f9fa;"></i>
+                
+                    <!-- Badge de notification dynamique -->
+                    <span id="notification-badge" class="notification-badge" style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; font-size: 10px; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        {{ notifications_count }}
+                    </span>
+                
+<!-- Dropdown pour les Notifications -->
+<div id="notification-dropdown" class="dropdown-content" style="display: none; position: absolute; top: 30px; right: 0; border: 1px solid #ccc; width: 250px; z-index: 1000; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); max-height: 300px; overflow-y: auto; border-radius: 5px;">
+    <h2 style="margin: 10px; margin-left: 50px;font-size: 16px; color: #003366;">Notifications</h2>
+    {% if notifications %}
+        <ul class="notifications-list" style="list-style: none; padding: 0; margin: 0;">
+            {% for notification in notifications %}
+                <li class="notification-item {% if not notification.is_read %}unread{% endif %}" style="padding: 8px; border-bottom: 1px solid #f1f1f1; font-size: 14px;">
+                    <a href="{% if notification.type == 'announcement' %}#important-announcements{% else %}{% url 'lead_actions' %}{% endif %}" 
+                       style="text-decoration: none; color: inherit;" 
+                       data-notification-id="{{ notification.id }}">
+                        <p style="margin: 0; font-size: 13px;">{{ notification.message }}</p>
+                    </a>
+                    <small class="timestamp" style="display: block; font-size: 12px; color: #888; margin-top: 5px;">{{ notification.created_at|date:"d M Y, H:i" }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="padding: 8px; font-size: 14px; color: #666;">Aucune notification disponible.</p>
+    {% endif %}
+</div>
+
+
+
+                    
+                </div>
+                
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Afficher/Masquer le dropdown des notifications lors du clic sur l'icône
+        document.getElementById("notification-icon").addEventListener("click", function() {
+            var dropdown = document.getElementById("notification-dropdown");
+            dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+        });
+    
+        // Gérer les clics sur les notifications
+        document.querySelectorAll('.notification-item a').forEach(function(item) {
+            item.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêcher l'action par défaut du lien
+                var notificationId = this.dataset.notificationId;
+                var url = this.href;
+    
+                console.log('Notification ID:', notificationId);
+                console.log('Redirection URL:', url);
+    
+                fetch(`/notifications/mark_as_read/${notificationId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            if (url.includes('#')) {
+                                var sectionId = url.split('#')[1];
+                                var section = document.getElementById(sectionId);
+                                if (section) {
+                                    console.log('Scrolling to section:', sectionId);
+                                    section.scrollIntoView({ behavior: 'smooth' });
+                                } else {
+                                    console.error('Section not found:', sectionId);
+                                }
+                            } else {
+                                console.log('Redirecting to URL:', url);
+                                window.location.href = url;
+                            }
+                        } else {
+                            console.error('Erreur lors de la mise à jour de la notification');
+                        }
+                    })
+                    .catch(error => console.error('Erreur :', error));
+            });
+        });
+    
+        // Fermer le dropdown si l'utilisateur clique en dehors de l'icône
+        window.onclick = function(event) {
+            if (!event.target.matches('#notification-icon')) {
+                var dropdown = document.getElementById("notification-dropdown");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                }
+            }
+        };
+    });
+    
+    
+    
+</script>
+
+
+
                 <div class="profile">
                     <div class="info">
-                        <a >Bienvenue {{ user.username }}</a>
+                        <a>Bienvenue {{ user.username }}</a>
                         <i class='bx bx-chevron-down' onclick="toggleMenu()"></i>
                     </div>
                     <div id="dropdownMenu" class="dropdown-menu">
+                        <!-- Lien visible uniquement pour les administrateurs -->
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin_dashboard' %}" class="admin-link">Espace Admin</a>
+                        {% endif %}
                         <a href="#" class="logout" onclick="logout()">Déconnexion</a>
                     </div>
                 </div>
-            
+                <div id="notifications-dropdown" class="notifications-dropdown">
+                    <!-- Messages de notification -->
+                    <div id="announcements-notifications" class="notification-message"></div>
+                    <div id="messages-notifications" class="notification-message"></div>
+                </div>
+                
                 <script>
                     function toggleMenu() {
                         const menu = document.getElementById('dropdownMenu');
@@ -806,6 +1049,25 @@
                         window.location.href = '/logout'; // Assurez-vous que l'URL de déconnexion est correcte
                     }
                 </script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Exemple de fonction pour vérifier les notifications
+                        function checkNotifications() {
+                            // Exemple de vérification (à remplacer par votre logique réelle)
+                            fetch('/api/notifications/') // Remplacez par l'URL de votre endpoint API
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.newAnnouncements || data.newMessages) {
+                                        document.getElementById('notification-badge').style.display = 'block';
+                                    }
+                                });
+                        }
+                    
+                        // Appeler la fonction pour vérifier les notifications lors du chargement de la page
+                        checkNotifications();
+                    });
+                </script>
+                
                 
             </div>
         </div>
@@ -843,7 +1105,7 @@
         
                         
                        
-                    
+
                     
                     <div class="progress">
                         <div class="bar" style="width: 75%;"></div>
@@ -858,57 +1120,46 @@
         <div class="prog-status">
             <div class="header">
                 <h4>Progrès et Statistiques</h4>
-                <div class="tabs">
-                    <a href="#" class="active">Aujourd'hui</a>
-                    <a href="#">Semaine</a>
-                    <a href="#">Mois</a>
-                </div>
+                
             </div>
             <div class="details">
                 <div class="item">
-                    <div class="graph">
-                        <canvas id="chart1"></canvas>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <!-- Premier graphique -->
+                            {% include 'leads_chart.html' %}
+                        </div>
                     </div>
-                    <p>Tâches accomplies</p>
                 </div>
                 <div class="item">
-                    <div class="graph">
-                        <canvas id="chart2"></canvas>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <!-- Premier graphique -->
+                            {% include 'leads_chart##.html' %}
+                        </div>
                     </div>
-                      <p>Réunions à Venir</p>
                 </div>
-                <div class="item">
-                    <div class="graph">
-                        <canvas id="chart3"></canvas>
-                    </div>
-                    <p>E-mails en Attente</p>
-                </div>
-                
             </div>
-            <div class="important-announcements">
+            
+            
+            <div id="important-announcements" class="important-announcements">
                 <div class="header">
                     <h4>Annonces Importantes</h4>
                 </div>
-                <div class="card">
-                    <div class="image">
-                        <!-- Optionnel : Ajouter une image ou un avatar pour l'annonce -->
+                {% if announcements %}
+                {% for announcement in announcements %}
+                    <div class="card">
+                        <h3>{{ announcement.title }}</h3>
+                        <p>{{ announcement.content }}</p>
                     </div>
-                    <p>
-                        Lancement d'un nouveau produit cette semaine. Soyez prêt pour la grande 
-                        <span class="read-more" onclick="toggleReadMore('announcement1')">Lire plus</span>
-                        <span id="announcement1" class="more-text">révélation et découvrez toutes les fonctionnalités qui vous attendent.</span>
-                    </p>
+                {% endfor %}
+                <div class="view-more">
+                    <a href="{% url 'announcements_list' %}" class="btn-view-more">Voir plus</a>
                 </div>
-                <div class="card">
-                    <div class="image">
-                        <!-- Optionnel : Ajouter une image ou un avatar pour l'annonce -->
-                    </div>
-                    <p>
-                        Une maintenance planifiée aura lieu ce dimanche. Assurez-vous de
-                        <span class="read-more" onclick="toggleReadMore('announcement2')">Lire plus</span>
-                        <span id="announcement2" class="more-text">sauvegarder vos données pour éviter toute perte pendant cette période.</span>
-                    </p>
-                </div>
+            {% else %}
+                <p>Aucune annonce disponible.</p>
+            {% endif %}
+                
             </div>
         </div>
       <div class="leads-pending-followup">
@@ -935,93 +1186,47 @@
                 {% endif %}
             </div>
         </div>
+        <div class="reminders-section">
+            <div class="header">
+                <h4>Rappels de Rendez-vous</h4>
+            </div>
+            {% if upcoming_appointments %}
+                {% for appointment in upcoming_appointments|slice:":3" %}
+                    <div class="reminder-card">
+                        <p><strong>Date :</strong> {{ appointment.date }}</p>
+                        <p><strong>Client :</strong> {{ appointment.lead.Prénom }} {{ appointment.lead.Nom }}</p>
+                        <a href="{% url 'appointment_detail' appointment.id %}" class="btn-details">Voir Détails</a>
+                    </div>
+                {% endfor %}
+                <!-- Placer la condition "Voir plus" ici, en dehors de la boucle -->
+                
+                    <div class="view-more">
+                        <a href="{% url 'appointments_list' %}" class="btn-view-more">Voir plus</a>
+                    </div>
+                
+            {% else %}
+                <p>Aucun rappel de rendez-vous prochain.</p>
+            {% endif %}
+        </div>
+        
         
     
     
 </div>
 
 
+    
+   
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Sample charts
-        const ctx1 = document.getElementById('chart1').getContext('2d');
-        const chart1 = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Completed Tasks',
-                    data: [10, 20, 15, 30, 25, 35],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
 
-        const ctx2 = document.getElementById('chart2').getContext('2d');
-        const chart2 = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Upcoming Meetings',
-                    data: [5, 10, 8, 12, 15, 10],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        function toggleReadMore(id) {
-            var moreText = document.getElementById(id);
-            var readMoreLink = moreText.previousElementSibling;
-        
-            if (moreText.classList.contains('show')) {
-                moreText.classList.remove('show');
-                readMoreLink.textContent = 'lire plus';
-            } else {
-                moreText.classList.add('show');
-                readMoreLink.textContent = 'lire moins';
-            }
-        }
-        
-        const ctx3 = document.getElementById('chart3').getContext('2d');
-        const chart3 = new Chart(ctx3, {
-            type: 'pie',
-            data: {
-                labels: ['Email 1', 'Email 2', 'Email 3'],
-                datasets: [{
-                    label: 'Pending Emails',
-                    data: [30, 20, 50],
-                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
-                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 205, 86, 1)'],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-    </script>
+    
     <a href="{% url 'faq' %}" class="faq-float" title="FAQ">
         <img src="https://w7.pngwing.com/pngs/193/759/png-transparent-faq-question-american-home-detectives-quilt-trail-boredgamer-faq-text-logo-united-states-thumbnail.png" alt="FAQ Icon">
-     
+        <script id="leads-data" type="application/json">
+            {{ leads_data|safe }}
+        </script>
+    
+        
 </body>
 
 </html>

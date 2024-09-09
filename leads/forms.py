@@ -38,13 +38,33 @@ class InteractionForm(forms.ModelForm):
 from django import forms
 from .models import Interaction
 
+from django import forms
+from .models import Interaction
+
 class AppelForm(forms.ModelForm):
     class Meta:
         model = Interaction
         fields = ['date', 'details', 'duree', 'commentaires']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-            'details': forms.Textarea(attrs={'rows': 4}),
-            'duree': forms.TextInput(attrs={'type': 'text'}),
-            'commentaires': forms.Textarea(attrs={'rows': 4}),
+            'date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control',
+                'placeholder': 'Sélectionnez une date'
+            }),
+            'details': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': 'Entrez les détails de l\'appel'
+            }),
+            'duree': forms.TextInput(attrs={
+                'type': 'text',
+                'class': 'form-control',
+                'placeholder': 'Durée de l\'appel (en minutes)'
+            }),
+            'commentaires': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': 'Ajoutez des commentaires supplémentaires'
+            }),
         }
+

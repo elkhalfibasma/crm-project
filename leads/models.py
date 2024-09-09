@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Lead(models.Model):
     STATUS_CHOICES = [
         ('nouveau', 'Nouveau'),
@@ -24,7 +25,7 @@ class Lead(models.Model):
     notes = models.TextField(blank=True)
     crée = models.DateTimeField(auto_now_add=True)
     Assigné = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_leads')
-
+    
     def __str__(self):
         return f"{self.Prénom} {self.Nom}"
 from django.db import models
@@ -40,6 +41,30 @@ class Interaction(models.Model):
     date = models.DateTimeField()
     duree = models.DurationField(null=True, blank=True)  # Pour les appels
     commentaires = models.TextField(null=True, blank=True)
-    
+    historique_appel = models.TextField(blank=True, null=True)
+    historique_email = models.TextField(blank=True, null=True)    
     def __str__(self):
         return f"{self.type} - {self.lead}"
+from django.db import models
+from django.utils import timezone
+
+class EmailLog(models.Model):
+    lead = models.ForeignKey('Lead', on_delete=models.CASCADE)
+    date_envoi = models.DateTimeField(default=timezone.now)
+    sujet = models.CharField(max_length=255)
+    corps = models.TextField()
+
+    def __str__(self):
+        return f"Email envoyé à {self.lead} le {self.date_envoi}"
+from django.db import models
+from django.utils import timezone
+
+class EmailHistory(models.Model):
+    lead = models.ForeignKey('Lead', on_delete=models.CASCADE)
+    to = models.EmailField()
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+    sent_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Email to {self.to} sent on {self.sent_at}"

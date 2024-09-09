@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="annonce-form">
+    <h2>Partager une Annonce</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-primary">Publier l'annonce</button>
+    </form>
+</div>
+{% endblock %}

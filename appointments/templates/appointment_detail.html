@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <title>Détail du Rendez-vous</title>
     <style>
         body {
@@ -18,7 +19,7 @@
         }
 
         .header-background {
-            background-image: url('https://images.unsplash.com/photo-1524168644224-a521b6533306?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-image: url('https://images.unsplash.com/photo-1496096265110-f83ad7f96608?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
             height: 200px;
@@ -89,7 +90,11 @@
         .action-buttons .btn-delete:hover {
             background-color: #c82333;
         }
-
+        bx-chevron-left-circle {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-right: 20px;
+        }
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.5em;
@@ -108,7 +113,7 @@
 <body>
     <div class="header-background"></div>
     <div class="container">
-        <h1>Détail du Rendez-vous</h1>
+        <h1><span class="bx bx-chevron-left-circle" onclick="window.location.href='{% url 'appointments_list' %}'"></span>Détail du Rendez-vous</h1>
         <div class="lead-detail">
             <p><strong>Lead:</strong> {{ appointment.lead.Prénom }} {{ appointment.lead.Nom }}</p>
             <p><strong>Date:</strong> {{ appointment.date|date:"Y-m-d H:i" }}</p>

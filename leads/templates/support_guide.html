@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>support et maintenance</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.min.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Roboto:wght@300;400;500;700;900&display=swap');
 
@@ -238,15 +240,32 @@
         text-align: center;
         color: #fff;
     }
+
+    .site-logo {
+      display: flex;
+      align-items: center; /* Align items vertically center by default */
+  }
+  
+  .bx-chevron-left-circle {
+      color: #fff;
+      font-size: 1.8rem;
+      margin-right: 20px;
+      margin-top: 5px; /* Fine-tune the position as needed */
+  }
+    
   </style>
 </head>
 
 <body>
-    
-      
+  
   <nav class="nav-bar" id="navbar">
+
+
     <div class="content">
+      
       <div class="site-logo">
+        <a class='bx bx-chevron-left-circle' href="{% url 'lead_list' %}"></a>
+
         <a  class="logo-link">Webrasma&Digital Rankin</a>
       </div>
 
@@ -282,7 +301,6 @@
           <div class="item-content">
             <h2 class="about-title">Support Technique :</h2>
             <div class="about-desc">
-              <p>Pour toute assistance technique, vous pouvez nous contacter via :</p>
               <p>Pour toute assistance technique, vous pouvez nous contacter via :</p>
               <ul>
                 <li><i class="fas fa-envelope"></i> Email : <a href="mailto:support@webrasma.com">support@webrasma.com</a></li>

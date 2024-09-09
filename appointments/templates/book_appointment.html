@@ -29,12 +29,12 @@
             height: 100%;
             margin: 0;
             font-family: 'Montserrat', sans-serif;
-            background: url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background: url('https://images.unsplash.com/photo-1608370617993-a5c9ee904646?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
             background-size: cover;
         }
         
         .wrapper {
-            display: flex;
+            display: center;
             align-items: center;
             justify-content: center;
             height: 100vh;
@@ -54,7 +54,7 @@
 
         @keyframes colorChange {
             0% {
-                color: #333; /* Couleur initiale (noir foncé) */
+                color: #000; /* Couleur initiale (noir foncé) */
             }
             50% {
                 color: #003366; /* Couleur de l'animation (bleu foncé) */
@@ -65,10 +65,10 @@
         }
 
         .form-wrapper {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            height: calc(100vh - 100px); /* Ajustez la hauteur en fonction du titre */
+            display: flex; /* Définit le conteneur comme flexbox */
+            justify-content: center; /* Centre horizontalement les éléments enfants */
+            align-items: center; /* Centre verticalement les éléments enfants */
+            height: calc(100vh - 100px); /* Ajuste la hauteur en fonction du titre */
         }
 
         form {
@@ -93,7 +93,7 @@
 
         .form-label {
             font-weight: 600;
-            color: #333;
+            color: #000;
         }
 
         .form-control {
@@ -108,7 +108,7 @@
         }
 
         .form-btn .submit-btn {
-            background-color: #ff4c5a;
+            background-color: #07061a;
             color: #fff;
             border: none;
             padding: 12px 30px;
@@ -120,12 +120,12 @@
         }
 
         .form-btn .submit-btn:hover {
-            background-color: #e43a47;
+            background-color: #267bd1;
         }
 
         .back-to-list {
             text-align: center; /* Centre le texte */
-            margin-top: 20px;
+            margin-top: 10px;
         }
         
         .back-to-list p {
@@ -133,7 +133,7 @@
         }
         
         .back-to-list a {
-            color: #333; /* Couleur du texte (noir foncé) */
+            color: #000; /* Couleur du texte (noir foncé) */
             text-decoration: none; /* Supprime le soulignement du lien */
             font-weight: 300; /* Optionnel: ajuste l'épaisseur de la police */
             font-size: 16px; /* Optionnel: ajuste la taille de la police */
@@ -147,10 +147,14 @@
 <body>
     
     <div class="form-wrapper">
-        <form method="post" action="{% url 'appointment_edit' appointment.id %}">
+        <form method="post" action="{% url 'book_appointment'%}">
             {% csrf_token %}
             <div class="booking-cta">
+                {% if appointment %}
                 <h1>Modifier un Rendez-vous</h1>
+                {% else %}
+                <h1>Prendre un Rendez-vous</h1>
+                {% endif %}
             </div>
             <div class="form-group">
                 <span class="form-label">Sélectionner un Lead</span>
@@ -183,7 +187,11 @@
             </div>
             
             <div class="form-btn">
+                {% if appointment %}
                 <button class="submit-btn" type="submit">Modifier Rendez-vous</button>
+                {% else %}
+                <button class="submit-btn" type="submit">Prendre Rendez-vous</button>
+                {% endif %}
             </div>
             <div class="back-to-list">
                 <p><a href="{% url 'appointments_list' %}">Retour à la liste des rendez-vous</a></p>

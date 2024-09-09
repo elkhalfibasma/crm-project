@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            max-width: 100%;
+            margin-top: 50px; /* Ajustez la marge si nécessaire */
+        }
+
+        #anotherChart {
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="anotherChart"></canvas>
+    </div>
+    <script>
+        // Préparer les données à partir du contexte Django
+        const months = {{ months|safe }};
+        const counts = {{ counts|safe }};
+
+        // Vérifier si l'élément canvas est bien trouvé
+        const canvas = document.getElementById('anotherChart');
+        if (!canvas) {
+            console.error('Le canvas avec l\'ID "anotherChart" n\'a pas été trouvé.');
+        } else {
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Le contexte du canvas n\'a pas pu être récupéré.');
+            } else {
+                const anotherChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Leads générés par mois',
+                            data: counts,
+                            backgroundColor: 'rgba(0, 51, 102, 0.8)',  // Bleu foncé nuit
+                            borderColor: 'rgba(0, 51, 102, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Nombre de Leads'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

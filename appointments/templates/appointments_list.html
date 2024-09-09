@@ -1,5 +1,7 @@
+{% load custom_filters %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,14 +173,21 @@
             cursor: pointer;
         }
 
-
-        .actions-container {
+        .main-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 0 20px;
+            
+             /* Espacement entre le calendrier et le conteneur des actions */
+            padding: 20px; /* Espacement autour du conteneur principal */
         }
+        .actions-container {
+             /* Fond semi-transparent pour l'effet glassy */
+            padding: 15px; /* Réduire l'espacement intérieur */
+            border-radius: 8px; /* Coins arrondis */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            width: 100%; /* Ajuster la largeur selon vos besoins */
+            margin-left: 80px;
+        }
+        
 
         .search-bar {
             background-color: var(--app-content-secondary-color);
@@ -190,22 +199,7 @@
         }
         
 
-        .filter-menu {
-            display: none;
-        }
-        
-        .filter-menu.active {
-            display: block;
-        }
-        
-
-        .filter-button-wrapper {
-            position: relative;
-        }
-
-        .filter-button-wrapper.active .filter-menu {
-            display: block;
-        }
+  
 
         table {
             width: 100%;
@@ -251,7 +245,6 @@
 
         .btn-primary { background-color: var(--action-color); color: #fff; }
         .btn-primary:hover { background-color: var(--action-color-hover); }
-        .btn-secondary { background-color: #6c757d; color: #fff; }
 
         .bottom-container {
             display: flex;
@@ -271,18 +264,13 @@
             width: 50%;
         }
 
-        .bottom-container .prog-status .header,
-        .bottom-container .popular .header,
-        .bottom-container .upcoming .header {
+        .bottom-container .prog-status .header{
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
         }
 
-        .bottom-container .prog-status .header h4,
-        .bottom-container .popular .header h4,
-        .bottom-container .upcoming .header h4 {
+        .bottom-container .prog-status .header h4 {
             font-weight: 600;
         }
 
@@ -315,10 +303,6 @@
             flex: 1;
         }
 
-        .bottom-container .prog-status .details .item .graph {
-            height: 140px;
-            margin-bottom: 20px;
-        }
 
         .bottom-container .prog-status .details .item p {
             font-size: 12px;
@@ -340,12 +324,7 @@
             padding: 10px 20px;
         }
 
-        .bottom-container .prog-status .class-ranking .image {
-            width: 50px;
-            height: 50px;
-            overflow: hidden;
-            border-radius: 10px;
-        }
+
 
         .bottom-container .prog-status .class-ranking .info {
             flex: 1;
@@ -413,49 +392,11 @@
             margin-bottom: 20px;
             padding: 0 20px;
             background: var(--app-bg);
-
+            margin-top: 10px;
             padding: 10px;
             border-radius: 8px;
-        }
-
-        .app-content-actions-wrapper .actions-left {
-            display: flex;
-            gap: 10px;
-        }
-
-        .app-content-actions-wrapper .actions-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .app-content-actions-wrapper .actions-left button {
-            background-color: var(--action-color);
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .app-content-actions-wrapper .actions-left button:hover {
-            background-color: var(--action-color-hover);
-        }
-
-        .app-content-actions-wrapper .actions-right .btn-secondary {
-            background-color: var(--filter-reset);
-            color: #fff;
-        }
-
-        .app-content-actions-wrapper .actions-right .btn-secondary:hover {
-            background-color: #031224;
-        }
-
-        .app-content-actions-wrapper .actions-left .add-import-buttons {
-            display: flex;
-            gap: 8px;
-        }
+      }
+     
         .prog-status {
             width: 80%; /* Adjust the width as needed */
             margin: 0 auto; /* Center the container */
@@ -465,12 +406,18 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
             text-align: center; /* Center the text inside the container */
             backdrop-filter: blur(1px);
+        }
+    
+
+    .prog-status .header h4 {
+        margin-bottom: 10px; /* Add space below the header */
+        font-size: 2rem; /* Increase the font size (adjust as needed) */
+        color: #000; /* Initial color (black) */
+        animation: colorChange 4s infinite; /* Apply the color animation */
     }
     
 
-.prog-status .header h4 {
-    margin-bottom: 20px; /* Add space below the header */
-}
+
 
 .prog-status .tabs {
     display: flex;
@@ -505,24 +452,6 @@
 }
 
 
-
-.btn-secondary:hover {
-    background-color: #5a6268; /* Darker shade for hover */
-}
-
-
-.btn-warning:hover {
-    background-color: #e0a800; /* Darker shade for hover */
-}
-
-.btn-info:hover {
-    background-color: #138496; /* Darker shade for hover */
-}
-
-
-.btn-danger:hover {
-    background-color: #c82333; /* Darker shade for hover */
-}
 .search-input {
     display: none;
     width: 200px;
@@ -540,98 +469,152 @@
     display: none;
     position: absolute;
     right: 0;
-    top: 100%;
-    background: #031224;
+    top: 116%;
+    background: #1a2b3c; /* Couleur de fond plus douce */
     color: #f1f3f2;
     border-radius: 8px;
-    padding: 10px;
-    width: 120px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 3px; /* Réduire le padding pour un espacement plus compact */
+    width: 175px; /* Largeur augmentée pour un effet plus étendu horizontalement */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Réduire l'ombre pour un effet plus subtil */
     z-index: 1000;
+    transition: all 0.3s ease;
+    font-size: 12px; /* Taille de police réduite */
 }
 
 .dropdown-menu a {
     color: #f1f3f2;
     text-decoration: none;
     display: block;
-    padding: 8px;
+    padding: 3px 3px; /* Padding ajusté pour plus de confort */
     border-radius: 4px;
+    font-weight: 400; /* Poids de texte plus fin */
+    transition: background 0.3s ease;
+    margin-bottom: 4px; /* Espace entre les liens */
 }
 
 .dropdown-menu a:hover {
-    background: #0ea5e9;
-}
-/* Wrapper for filter button and menu */
-.filter-button-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-/* Button styling */
-.filter-button {
-    background-color: #007bff;
+    background: #2196f3; /* Couleur de survol plus lumineuse */
     color: #ffffff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
 }
 
-.filter-button i {
-    margin-right: 5px;
+.dropdown-menu a:last-child {
+     /* Trait de séparation avant le dernier élément */
+    margin-top: 1px; /* Espace supplémentaire avant le dernier lien */
 }
 
-/* Filter menu styling */
-.filter-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #ffffff;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    padding: 15px;
-    width: 220px;
-}
-
-/* Each filter item styling */
-.filter-item {
-    margin-bottom: 15px;
-}
-
-.filter-item:last-child {
-    margin-bottom: 0;
-}
-
-.filter-item label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-}
-
-.filter-item select,
-.filter-item input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    background-color: #f8f9fa;
-    color: #333;
-}
 
 /* Show filter menu */
 .filter-button-wrapper.active .filter-menu {
     display: block;
 }
 
+.filter-container {
+    position: relative; /* Positionner le conteneur de filtre relativement pour que le date-container soit en position absolue par rapport à lui */
+}
+
+#filter-date-container {
+    display: none; /* Masquer par défaut */
+    position: relative; /* Positionner absolument pour être en dessous du bouton */
+    top: 100%; /* Placer juste en dessous du bouton */
+
+    margin-top: 5px; /* Espacement entre le bouton et la date */
+    background-color: #fff; /* Fond blanc pour le conteneur de date */
+    padding: 5px;
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis pour le conteneur de date */
+    z-index: 10; /* Assurer que le conteneur de date soit au-dessus d'autres éléments */
+}
+
+#filter-arrow {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+input[type="date"] {
+    width: 100%; /* Ajuster la largeur pour qu'il remplisse le conteneur */
+}
+btn btn-primary {
+    margin-right: 20px;
+}
+
+
+
+
+
+
+
+
+
+/* Styles pour le conteneur du calendrier */
+/* Styles pour le conteneur du calendrier */
+.calendar-container {
+    background: rgba(0, 0, 0, 0.3); /* Couleur de fond sombre semi-transparente pour l'effet glassy */
+    padding: 15px; /* Réduire l'espacement intérieur */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Ombre légère */
+    margin-top: 15px;
+    width: 30%; /* Réduire la largeur pour rendre la section plus petite */
+    float: left; /* Positionner à gauche pour permettre au tableau de se placer à droite */
+    margin-right: 10px;/* Espacement entre le calendrier et la section des actions */
+}
+
+
+.calendar {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.calendar th, .calendar td {
+    border: 1px solid #ddd;
+    padding: 3px; /* Réduire l'espacement intérieur des cellules */
+    text-align: center;
+    width: 12%; /* Réduire la largeur des colonnes */
+    height: 40px; /* Réduire la hauteur des cellules */
+}
+
+.calendar .day {
+    border-radius: 6px; /* Réduire les coins arrondis */
+    width: 40px; /* Réduire la largeur des cellules de jour */
+    height: 40px; /* Réduire la hauteur des cellules de jour */
+    vertical-align: top;
+    position: relative; /* Pour positionner les lignes d'événements */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Transition fluide pour le redimensionnement et le changement de couleur */
+}
+
+.calendar .day:hover {
+    background-color: #2c394f; /* Couleur de fond lors du survol */
+    border-radius: 4px; /* Coins arrondis au survol */
+    transform: scale(1.1); /* Agrandir la cellule de 10% */
+    z-index: 1; /* Assurer que la cellule survolée apparaisse au-dessus des autres */
+}
+
+.calendar .today {
+    background-color: #2c394f;
+}
+
+.calendar .other-month {
+    background-color: ; /* Couleur de fond pour les jours des mois précédents (modifiée) */
+    color: gray; /* Couleur du texte pour les jours des mois précédents */
+}
+
+.day .event-line {
+    height: 1px; /* Réduire la hauteur des lignes d'événements */
+    background-color: #91c33b; /* Couleur des lignes pour les rendez-vous */
+    display: flex; /* Utiliser flexbox pour aligner les éléments */
+    align-items: center; /* Centrer verticalement le texte */
+    margin: 3px; /* Réduire la marge autour des lignes d'événements */
+    border-radius: 2px;
+    position: relative; /* Positionner pour les lignes d'événements */
+}
+
+.day .event-line span {
+    margin-left: 10px; /* Réduire l'espacement entre la ligne et le texte */
+    font-size: 10px; /* Réduire la taille de la police */
+}
+
 
     </style>
+
 </head>
 <body>
     <div class="top-container">
@@ -641,13 +624,13 @@
                 <a>WEBRASMA&amp;Digital Rankin</a>
             </div>
             <div class="nav-links">
-                <a href= "/leads">Home</a>
-                <a href="/leads/leads/">Leads</a>
-                <a href="/appointments/appointments/">Appointments</a>
-                <a href="#">Settings</a>
+                <a href="{% url 'lead_list' %}">Home</a>
+                <a href="{% url 'lead_actions' %}">Leads</a>
+                <a href="{% url 'appointments_list' %}">Rendez-vous</a>
+                <a href="{% url 'conversation_list'%}">Discussions</a>
+                <a href="{% url 'support_guide' %}">Guide de support</a>
             </div>
             <div class="right-section">
-                <i class='bx bx-bell'></i>
                 <i class='bx bx-search' id="search-icon" onclick="toggleSearch()"></i>
                 <input type="text" id="searchInput" placeholder="Rechercher..." class="search-input">
                 <script>
@@ -659,14 +642,16 @@
                 </script>
                 <div class="profile">
                     <div class="info">
-                        <a >Bienvenue {{ user.username }}</a>
+                        <a>Bienvenue {{ user.username }}</a>
                         <i class='bx bx-chevron-down' onclick="toggleMenu()"></i>
                     </div>
                     <div id="dropdownMenu" class="dropdown-menu">
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin_dashboard' %}" class="admin-link">Espace Admin</a>
+                        {% endif %}
                         <a href="#" class="logout" onclick="logout()">Déconnexion</a>
                     </div>
                 </div>
-            
                 <script>
                     function toggleMenu() {
                         const menu = document.getElementById('dropdownMenu');
@@ -678,108 +663,148 @@
                         window.location.href = '/logout'; // Assurez-vous que l'URL de déconnexion est correcte
                     }
                 </script>
-                
             </div>
         </div>
     </div>
-    <div class="actions-container">
-        <form method="get" action="">
-            <div class="filter-button-wrapper">
-                <button type="button" class="filter-button" onclick="toggleFilterMenu()">
-                    <i class="fas fa-filter">Filter</i> 
-                </button>
-                <div class="filter-menu">
-                    <div class="filter-item">
-                        <label for="status">Statut:</label>
-                        <select name="status" id="status">
-                            <option value="all" {% if status_filter == 'all' %}selected{% endif %}>Tout</option>
-                            <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Nouveau</option>
-                            <option value="contacted" {% if status_filter == 'contacted' %}selected{% endif %}>Contacté</option>
-                            <option value="converted" {% if status_filter == 'converted' %}selected{% endif %}>Converti</option>
-                            <option value="lost" {% if status_filter == 'lost' %}selected{% endif %}>Perdu</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label for="created_at">Date de Création:</label>
-                        <input type="date" name="created_at" id="created_at" value="{{ created_at_filter }}">
-                    </div>
-                    <div class="filter-item">
-                        <button type="submit" class="btn btn-primary">Apply</button>
-                    </div>
+
+    <!-- Conteneur principal pour le calendrier et les actions -->
+    <div class="main-container">
+        <div class="calendar-container">
+            <h2>
+                {{ current_month_name }} {{ year }}
+                <a href="?month={{ previous_month }}&year={{ previous_year }}" class='bx bx-caret-left' style="color : #000; margin-left: 250px;"></a>
+                <a href="?month={{ next_month }}&year={{ next_year }}" class='bx bx-caret-right' style=" color : #000; margin-right: 10px;"></a>
+            </h2>
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <th class="day-name">Dim</th>
+                        <th class="day-name">Lun</th>
+                        <th class="day-name">Mar</th>
+                        <th class="day-name">Mer</th>
+                        <th class="day-name">Jeu</th>
+                        <th class="day-name">Ven</th>
+                        <th class="day-name">Sam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for week in calendar_weeks %}
+                        <tr>
+                            {% for day in week %}
+                            <td class="day{% if day == today.day %} today{% endif %}{% if day == 0 %} other-month{% endif %}">
+                                {% if day != 0 %}
+                                    <span class="number">{{ day }}</span>
+                                    {% if appointment_counts|get_item:day %}
+                                        {% for appointment in appointment_counts|get_item:day %}
+                                            <div class="event-line" style="background-color: {{ appointment.lead.background_color }};">
+                                                <span>{{ appointment.date|date:"H:i" }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% else %}
+                                    <span class="number"></span>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions-container">
+            <div class="prog-status">
+                <div class="header"> 
+                    <h4>Liste des Rendez-vous
+                        <div class="actions-right">
+                            <a href="{% url 'book_appointment' %}" class="btn btn-primary" style="margin-left:65%;">
+                                <i class="fas fa-plus-circle"></i> Ajouter un Rendez-vous
+                            </a>
+                            <div class="filter-container">
+                                <div class="btn-filter">
+                                    <a href="#" class="btn btn-primary" onclick="toggleDateInput(); return false;">
+                                        <i class="fas fa-filter"> Filtrer </i>
+                                        <i id="filter-arrow" class="fas fa-chevron-down"></i>
+                                    </a>
+                                </div>
+                                <div id="filter-date-container" class="filter-date-container">
+                                    <input type="date" id="filter-date" class="form-control" lang="fr" placeholder="Filtrer par date">
+                                </div>
+                            </div>
+                        </div>
+                    </h4>
                 </div>
-            </div>
-        </form>        
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lead</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Confirmation</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lead-table-body">
+                        {% for appointment in appointments %}
+                        <tr data-date="{{ appointment.date|date:'Y-m-d' }}">
+                            <td>{{ appointment.lead }}</td>
+                            <td>{{ appointment.date|date:'d/m/Y' }}</td> <!-- Format affiché pour l'utilisateur -->
+                            <td>{{ appointment.location }}</td>
+                            <td>{{ appointment.confirmed|yesno:"Yes,No" }}</td>
+                            <td>
+                                <a href="{% url 'appointment_edit' appointment.id %}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                <a href="{% url 'appointment_detail' appointment.id %}" class="btn btn-sm btn-info">
+                                    <i class="fas fa-info-circle"></i> Détails
+                                </a>
+                                <a href="{% url 'appointment_delete' appointment.id %}" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-            <!-- Actions for adding and exporting -->
-            <div class="actions-right">
-                <a href="{% url 'book_appointment' %}" class="btn btn-primary">
-                    <i class="fas fa-plus-circle"></i> Ajouter un Rendez-vous
-                </a>
+                <script>
+                    $(document).ready(function() {
+                        $('.search-bar-toggle').on('click', function() {
+                            $('.search-input').toggleClass('show-search');
+                        });
+
+                        $('.search-input').on('input', function() {
+                            var searchTerm = $(this).val().toLowerCase();
+                            $('table tbody tr').each(function() {
+                                var rowText = $(this).text().toLowerCase();
+                                if (rowText.indexOf(searchTerm) !== -1) {
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            });
+                        });
+                    });
+
+                    function toggleDateInput() {
+                        var dateContainer = document.getElementById('filter-date-container');
+                        var arrow = document.getElementById('filter-arrow');
+                        if (dateContainer.style.display === 'block') {
+                            dateContainer.style.display = 'none';
+                            arrow.classList.remove('fa-chevron-up');
+                            arrow.classList.add('fa-chevron-down');
+                        } else {
+                            dateContainer.style.display = 'block';
+                            arrow.classList.remove('fa-chevron-down');
+                            arrow.classList.add('fa-chevron-up');
+                        }
+                    }
+                </script>
             </div>
         </div>
     </div>
-
-</div>
-<div class="prog-status">
-        <div class="header"> 
-            <h4>Liste des Rendez-vous</h4>
-        </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Lead</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Confirmation</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for appointment in appointments %}
-            <tr>
-                <td>{{ appointment.lead }}</td>
-                <td>{{ appointment.date }}</td>
-                <td>{{ appointment.location }}</td>
-                <td>{{ appointment.confirmed|yesno:"Yes,No" }}</td>
-                <td>
-                    <a href="{% url 'appointment_edit' appointment.id %}" class="btn btn-sm btn-warning">
-                        <i class="fas fa-edit"></i> Modifier
-                    <a href="{% url 'appointment_detail' appointment.id %}" class="btn btn-sm btn-info">
-                        <i class="fas fa-info-circle"></i> Détails
-                    <a href="{% url 'appointment_delete' appointment.id %}" class="btn btn-sm btn-danger">
-                        <i class="fas fa-trash-alt"></i> Supprimer
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-    <script>
-        
- 
-        $(document).ready(function() {
-            // Toggle the visibility of the search bar
-            $('.search-bar-toggle').on('click', function() {
-                $('.search-input').toggleClass('show-search');
-            });
-    
-            // Perform search functionality
-            $('.search-input').on('input', function() {
-                var searchTerm = $(this).val().toLowerCase();
-    
-                $('table tbody tr').each(function() {
-                    var rowText = $(this).text().toLowerCase();
-                    if (rowText.indexOf(searchTerm) !== -1) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-        });
-    
-    
-    </script>
 </body>
+
 </html>

@@ -20,11 +20,11 @@
                 Confirmer la Suppression
             </div>
             <div class="card-body">
-                <p>Êtes-vous sûr de vouloir supprimer le lead <strong>{{ lead.first_name }} {{ lead.last_name }}</strong> ?</p>
+                <p>Êtes-vous sûr de vouloir supprimer le lead <strong>{{ lead.Prénom }} {{ lead.Nom }}</strong> ?</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Oui, supprimer</button>
-                    <a href="{% url 'lead_list' %}" class="btn btn-secondary">Annuler</a>
+                    <a href="{% url 'lead_actions' %}" class="btn btn-secondary">Annuler</a>
                 </form>
             </div>
         </div>

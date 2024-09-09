@@ -5,7 +5,7 @@ class Notification(models.Model):
     NOTIFICATION_TYPES = (
         ('lead', 'Lead'),
         ('message', 'Message'),
-        ('file', 'File'),
+        ('announcement', 'annonce'),
         # Add other types as needed
     )
 
@@ -14,6 +14,6 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
-
+    redirect_url = models.URLField(blank=True, null=True)
     def __str__(self):
         return f'Notification for {self.user.username}: {self.message}'

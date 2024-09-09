@@ -1,0 +1,134 @@
+[
+    {
+        "Prénom": "John",
+        "Nom": "Doe",
+        "Email": "john.doe@example.com",
+        "Télephone": "0123456789",
+        "source": "Site Web",
+        "statut": "nouveau",
+        "Notes": "Lead potentiel à suivre",
+        "Créé": "2024-08-28",
+        "Assigné": "Utilisateur1"
+    },
+    {
+        "Prénom": "Jane",
+        "Nom": "Smith",
+        "Email": "jane.smith@example.com",
+        "Télephone": "0987654321",
+        "source": "Référence",
+        "statut": "contacté",
+        "Notes": "Intéressée par nos services",
+        "Créé": "2024-08-28",
+        "Assigné": "Utilisateur2"
+    },
+    {
+        "Prénom": "Alice",
+        "Nom": "Johnson",
+        "Email": "alice.johnson@example.com",
+        "Télephone": "0123987654",
+        "source": "Publicité",
+        "statut": "converti",
+        "Notes": "Demande de devis reçue",
+        "Créé": "2024-08-27",
+        "Assigné": "Utilisateur3"
+    },
+    {
+        "Prénom": "Bob",
+        "Nom": "Williams",
+        "Email": "bob.williams@example.com",
+        "Télephone": "0987123456",
+        "source": "Autre",
+        "statut": "perdu",
+        "Notes": "Pas intéressé pour le moment",
+        "Créé": "2024-08-26",
+        "Assigné": "Utilisateur4"
+    },
+    {
+        "Prénom": "Carol",
+        "Nom": "Miller",
+        "Email": "carol.miller@example.com",
+        "Télephone": "0234567890",
+        "source": "Site Web",
+        "statut": "contacté",
+        "Notes": "Demande de rendez-vous",
+        "Créé": "2024-08-25",
+        "Assigné": "Utilisateur1"
+    },
+    {
+        "Prénom": "David",
+        "Nom": "Brown",
+        "Email": "david.brown@example.com",
+        "Télephone": "0345678901",
+        "source": "Référence",
+        "statut": "nouveau",
+        "Notes": "Contact via un partenaire",
+        "Créé": "2024-08-24",
+        "Assigné": "Utilisateur2"
+    },
+    {
+        "Prénom": "Eve",
+        "Nom": "Davis",
+        "Email": "eve.davis@example.com",
+        "Télephone": "0456789012",
+        "source": "Publicité",
+        "statut": "converti",
+        "Notes": "Demande de suivi",
+        "Créé": "2024-08-23",
+        "Assigné": "Utilisateur3"
+    },
+    {
+        "Prénom": "Frank",
+        "Nom": "Miller",
+        "Email": "frank.miller@example.com",
+        "Télephone": "0567890123",
+        "source": "Autre",
+        "statut": "perdu",
+        "Notes": "Non intéressé pour le moment",
+        "Créé": "2024-08-22",
+        "Assigné": "Utilisateur4"
+    },
+    {
+        "Prénom": "Grace",
+        "Nom": "Wilson",
+        "Email": "grace.wilson@example.com",
+        "Télephone": "0678901234",
+        "source": "Site Web",
+        "statut": "contacté",
+        "Notes": "En attente de réponse",
+        "Créé": "2024-08-21",
+        "Assigné": "Utilisateur1"
+    },
+    {
+        "Prénom": "Hank",
+        "Nom": "Moore",
+        "Email": "hank.moore@example.com",
+        "Télephone": "0789012345",
+        "source": "Référence",
+        "statut": "converti",
+        "Notes": "Client potentiel à contacter",
+        "Créé": "2024-08-20",
+        "Assigné": "Utilisateur2"
+    },
+    {
+        "Prénom": "Ivy",
+        "Nom": "Taylor",
+        "Email": "ivy.taylor@example.com",
+        "Télephone": "0890123456",
+        "source": "Publicité",
+        "statut": "nouveau",
+        "Notes": "Demande d'informations",
+        "Créé": "2024-08-19",
+        "Assigné": "Utilisateur3"
+    },
+    {
+        "Prénom": "Jack",
+        "Nom": "Anderson",
+        "Email": "jack.anderson@example.com",
+        "Télephone": "0901234567",
+        "source": "Autre",
+        "statut": "perdu",
+        "Notes": "Pas de réponse",
+        "Créé": "2024-08-18",
+        "Assigné": "Utilisateur4"
+    }
+]

@@ -1,0 +1,3 @@
+Prénom,Nom,Email,Télephone,source,statut,Notes,Créé,Assigné
+John,Doe,john.doe@example.com,0123456789,Site Web,nouveau,Lead potentiel à suivre,2024-08-28,basma
+Jane,Smith,jane.smith@example.com,0987654321,Publicité,contacté,Suivi nécessaire,2024-08-29,ELKHALFI

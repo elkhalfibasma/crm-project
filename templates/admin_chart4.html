@@ -1,0 +1,71 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx4 = document.getElementById('chart4').getContext('2d');
+
+        // Données récupérées depuis le template Django
+        const newLeadsCount = {{ new_leads_count }};
+        const lostLeadsCount = {{ lost_leads_count }};
+
+        new Chart(ctx4, {
+            type: 'radar', // Type de graphique (radar)
+            data: {
+                labels: ['Nouveau', 'Perdu'], // Les axes du radar
+                datasets: [{
+                    label: 'Nouveau', // Label pour la série des nouveaux leads
+                    data: [newLeadsCount, 0], // Valeurs pour l'axe des X
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Couleur de remplissage avec opacité
+                    borderColor: 'rgba(54, 162, 235, 1)', // Couleur de bordure
+                    borderWidth: 2, // Épaisseur de la bordure
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)', // Couleur des points
+                    pointBorderColor: '#fff', // Couleur de bordure des points
+                    pointRadius: 5, // Rayon des points
+                    pointHoverRadius: 7 // Rayon des points au survol
+                },
+                {
+                    label: 'Perdu', // Label pour la série des leads perdus
+                    data: [0, lostLeadsCount], // Valeurs pour l'axe des X
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Couleur de remplissage avec opacité
+                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de bordure
+                    borderWidth: 2, // Épaisseur de la bordure
+                    pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Couleur des points
+                    pointBorderColor: '#fff', // Couleur de bordure des points
+                    pointRadius: 5, // Rayon des points
+                    pointHoverRadius: 7 // Rayon des points au survol
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true, // Commencer à zéro
+                        grid: {
+                            color: '#e0e0e0' // Couleur de la grille
+                        },
+                        ticks: {
+                            stepSize: 10 // Intervalle des ticks
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true, // Afficher la légende
+                        position: 'top', // Position de la légende
+                        labels: {
+                            font: {
+                                size: 14 // Taille de la police de la légende
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.raw; // Affichage des valeurs
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Appels pour {{ lead.Prénom }} {{ lead.Nom }}</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('https://images.unsplash.com/photo-1546453667-8a8d2d07bc20?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .interaction-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .interaction {
+            width: calc(50% - 10px);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .interaction:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .interaction-details {
+            padding: 15px;
+            height: auto;
+            overflow: hidden;
+            transition: height 0.3s ease;
+            word-wrap: break-word; /* Ensures that long words break to the next line */
+
+        }
+
+        .interaction:hover .interaction-details {
+            height: auto;
+        }
+
+        .interaction-details p {
+            margin: 8px 0;
+            color: #34495e;
+            font-size: 0.9em;
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .interaction:hover .interaction-details p {
+            white-space: normal;
+        }
+
+        .interaction-details p strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+
+        .interaction-appels {
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>            
+            <span class="bx bx-chevron-left-circle" onclick="window.location.href='{% url 'lead_interactions' lead.id %}'"></span>
+            Historique des Appels pour {{ lead.Prénom }} {{ lead.Nom }}
+        </h1>
+        
+        {% if appels %}
+            <span class="interaction-appels">Appels récents :</span>
+            {% for appel in appels %}
+                {% if forloop.counter0|divisibleby:2 %}
+                    <div class="interaction-row">
+                {% endif %}
+                <div class="interaction">
+                    <div class="interaction-details">
+                        <p><strong>Date:</strong> {{ appel.date }}</p>
+                        <p><strong>Durée:</strong> {{ appel.duree }}</p>
+                        <p><strong>Détails:</strong> {{ appel.details }}</p>
+                        <p><strong>Commentaires:</strong> {{ appel.commentaires }}</p>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:2 or forloop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Aucun appel enregistré pour ce lead.</p>
+        {% endif %}
+        
+        
+    </div>
+
+    <script>
+        document.querySelectorAll('.interaction').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.querySelector('.interaction-details').style.height = 'auto';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.querySelector('.interaction-details').style.height = '100px';
+            });
+        });
+    </script>
+</body>
+</html>

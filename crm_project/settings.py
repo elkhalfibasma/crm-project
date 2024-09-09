@@ -56,7 +56,12 @@ INSTALLED_APPS = [
     'appointments',
     'notifications',
     'conversations',
+    'users',
+    
 ]
+# settings.py
+SESSION_COOKIE_SECURE = False  # Assurez-vous que c'est configuré correctement en fonction de votre environnement
+CSRF_COOKIE_SECURE = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,8 +73,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'crm_project.urls'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+ROOT_URLCONF = 'crm_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -86,6 +94,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'crm_project.wsgi.application'
 
 
@@ -99,9 +109,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crm_project', 
         'USER': 'root',        
-        'PASSWORD': '',  
+        'PASSWORD': 'password',  
         'HOST': 'localhost',                     
-        'PORT': '3306',                          
+        'PORT': '3307',                          
 }
 }
 

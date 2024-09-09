@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Leads</title>
+    <!-- Inclure les styles et les scripts nécessaires ici -->
+</head>
+<body>
+    <h1>All Leads</h1>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Source</td>
+                <td>Status</td>
+                <td>Date</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lead in leads %}
+            <tr>
+                <td>{{ lead.prénom }} {{ lead.nom }}</td>
+                <td>{{ lead.source }}</td>
+                <td class="statut {{ lead.statut|lower }}">{{ lead.statut }}</td>
+                <td>{{ lead.crée|date:"Y-m-d" }}</td>
+                <td><a href="{% url 'lead_detail' lead.id %}">View Details</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No leads available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

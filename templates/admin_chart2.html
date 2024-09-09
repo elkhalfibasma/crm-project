@@ -1,0 +1,52 @@
+<!-- Inclure Chart.js si ce n'est pas déjà inclus -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Contexte pour le graphique 2
+        const ctx2 = document.getElementById('chart2').getContext('2d');
+
+        // Récupérer les données JSON passées depuis le template Django
+        const sources = {{ sources|safe }};  // Passer les sources de manière sécurisée
+        const counts = {{ counts|safe }};    // Passer les comptes de manière sécurisée
+
+        new Chart(ctx2, {
+            type: 'pie', // Type de graphique (secteurs)
+            data: {
+                labels: sources, // Sources des leads
+                datasets: [{
+                    label: 'Répartition des Leads par Source',
+                    data: counts, // Nombre de leads par source
+                    backgroundColor: [
+                        '#003366', 
+                        '#73C2FB', 
+                        '#00FFFF', // Vert
+                        '#791CF8'  // Jaune
+                    ],
+                    borderColor: [
+                        '#003366', // Bleu foncé
+                        '#73C2FB', // Rouge
+                        '#00FFFF', // Vert
+                        '#791CF8'  // Jaune
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

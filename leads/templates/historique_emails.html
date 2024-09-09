@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Emails</title>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        .email-card {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .email-card h3 {
+            margin: 0;
+            color: #333;
+        }
+        .email-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .email-card time {
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Historique des Emails</h1>
+        <!-- Zone où les emails seront affichés -->
+        <div id="email-history">
+            <p>Aucun email envoyé encore.</p>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour obtenir l'ID du lead depuis le chemin de l'URL
+        function getLeadIdFromUrl() {
+            const pathSegments = window.location.pathname.split('/');
+            // Supposons que l'ID du lead est l'avant-dernier segment du chemin
+            return pathSegments[pathSegments.length - 1];
+        }
+
+        // Fonction pour afficher l'historique des emails
+        function displayEmailHistory() {
+            // Récupérer l'ID du lead depuis l'URL
+            const leadId = getLeadIdFromUrl();
+
+            // Afficher l'ID du lead dans la console pour vérification
+            console.log('ID du lead extrait:', leadId);
+
+            if (!leadId) {
+                document.getElementById('email-history').innerHTML = '<p>ID de lead non spécifié.</p>';
+                return;
+            }
+
+            // Récupérer les données de localStorage
+            const emailHistory = JSON.parse(localStorage.getItem('emailHistory')) || [];
+
+            // Filtrer les emails par leadId
+            const filteredEmails = emailHistory.filter(email => email.userId === leadId);
+
+            const emailHistoryContainer = document.getElementById('email-history');
+            emailHistoryContainer.innerHTML = ''; // Réinitialiser l'affichage
+
+            if (filteredEmails.length === 0) {
+                emailHistoryContainer.innerHTML = '<p>Aucun email envoyé encore.</p>';
+            } else {
+                // Parcourir l'historique et l'afficher
+                filteredEmails.forEach((email) => {
+                    const emailCard = document.createElement('div');
+                    emailCard.className = 'email-card';
+
+                    // Créer les éléments pour chaque email
+                    emailCard.innerHTML = `
+                        <h3>À: ${email.email}</h3>
+                        <p><strong>Prénom:</strong> ${email.prenom}</p>
+                        <p><strong>Sujet:</strong> ${email.sujet}</p>
+                        <p><strong>Date:</strong> ${email.date}</p>
+                        <p><strong>Message:</strong> ${email.message}</p>
+                    `;
+                    // Ajouter la carte d'email dans le container
+                    emailHistoryContainer.appendChild(emailCard);
+                });
+            }
+        }
+
+        // Afficher l'historique des emails au chargement de la page
+        window.onload = displayEmailHistory;
+    </script>
+</body>
+</html>

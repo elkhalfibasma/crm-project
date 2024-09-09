@@ -1,209 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - WEBRASMA & Digital Ranking</title>
+    <title>Connexion - WEBRASMA & Digital Ranking</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Open Sans", sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         body {
+            background-image: url('https://images.unsplash.com/photo-1483959651481-dc75b89291f1?q=80&w=1549&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover; /* Couvre tout l'écran */
+            background-position: center; /* Centre l'image */
+            background-repeat: no-repeat; /* Évite la répétition de l'image */
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            width: 100%;
-            padding: 0 10px;
-            background: url("https://images.unsplash.com/photo-1604856420566-576ba98b53cd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"), #000;
-            background-position: center;
-            background-size: cover;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        
+
+        .container {
+            background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover; /* Couvre tout le conteneur */
+            background-position: center; /* Centre l'image dans le conteneur */
+            background-repeat: no-repeat; /* Empêche la répétition de l'image */
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
             position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+            margin: 0; /* Ajout de cette ligne */
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease-in-out;
         }
-
-        nav.navbar {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        
+        .form-container {
             position: absolute;
-            top: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 30px;
+            transition: all 0.6s ease-in-out;
+             /* Couleur de fond avec transparence pour le texte */
+        }
+        
+        .sign-in {
             left: 0;
-            text-align: center;
+            opacity: 1;
+            z-index: 2;
         }
-
-        nav.navbar .navbar-brand {
-            font-size: 1.5rem;
-            color: #fff;
-            text-transform: uppercase;
-            animation: color-change 3s infinite;
-            padding: 20px;
-        }
-
-        @keyframes color-change {
-            0% { color: #fff; }
-            50% { color: #ccc; }
-            100% { color: #fff; }
-        }
-
-        .wrapper {
-            width: 400px;
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-
-        form {
+        
+       
+       
+        
+        
+        .container form {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
             display: flex;
             flex-direction: column;
+            padding: 40px;
+            
         }
 
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .input-field {
-            position: relative;
-            border-bottom: 2px solid #ccc;
-            margin: 15px 0;
-        }
-
-        .input-field label {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            color: #000; /* Changed label color to black */
-            font-size: 16px;
-            pointer-events: none;
-            transition: 0.15s ease;
-        }
-
-        .input-field input {
+        .container input {
+            background-color: #eee;
+            border: none;
+            margin: 10px 0;
+            
+            padding: 10px 10px;
+            font-size: 13px;
+            border-radius: 8px;
             width: 100%;
-            height: 40px;
-            background: transparent;
-            border: none;
             outline: none;
-            font-size: 16px;
+        }
+
+        .container button {
+            background-color: rgb(255, 13, 13);
             color: #fff;
-        }
-
-        .input-field input:focus~label,
-        .input-field input:valid~label {
-            font-size: 0.8rem;
-            top: 10px;
-            transform: translateY(-120%);
-        }
-
-        .forget {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 25px 0 35px 0;
-            color: #fff;
-        }
-
-        #remember {
-            accent-color: #fff;
-        }
-
-        .forget label {
-            display: flex;
-            align-items: center;
-        }
-
-        .forget label p {
-            margin-left: 8px;
-        }
-
-        .wrapper a {
-            color: #efefef;
-            text-decoration: none;
-        }
-
-        .wrapper a:hover {
-            text-decoration: underline;
-        }
-
-        button {
-            background: #fff;
-            color: #000;
-            font-weight: 600;
+            font-size: 12px;
+            padding: 10px 10px;
             border: none;
-            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 10px;
             cursor: pointer;
-            border-radius: 3px;
-            font-size: 16px;
-            border: 2px solid transparent;
-            transition: 0.3s ease;
         }
 
-        button:hover {
-            color: #fff;
-            border-color: #fff;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .register {
+        .container a {
+            color: #333;
+            font-size: 13px;
+            text-decoration: none;
+            margin: 15px 0;
+            display: block;
             text-align: center;
-            margin-top: 30px;
+        }
+
+        .error-message p {
+            color: red;
+            margin: 10px 0;
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            border-radius: 20px;
+            z-index: 1000;
+        }
+
+        .toggle {
+            background-color: rgba(3, 1, 21, 0.8); /* Couleur #36334C avec 80% d'opacité */
+            height: 100%;
+            color: #fff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+        
+
+        .container.active .toggle {
+            transform: translateX(50%);
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: left;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 30px;
+            text-align: center;
+            top: 0;
+        }
+
+        .toggle-left {
+            transform: translateX(-200%);
+        }
+
+        .container.active .toggle-left {
+            transform: translateX(0);
+        }
+
+        .toggle-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .toggle-panel h1 {
+            font-size: 24px;
+            margin-bottom: 35px;
+        }
+        
+
+        .toggle-panel p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        /* Style pour le formulaire de connexion */
+        /* Style pour le formulaire de connexion */
+        .toggle-panel.toggle-left form {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            padding: 40px;
+             /* Fond semi-transparent */
+            
+            
+        }
+        
+        /* Style pour le titre <h2> */
+        .toggle-panel.toggle-left h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px; /* Espacement inférieur */
+            color: #fff; /* Couleur du texte */
+        }
+        
+        /* Style pour les champs de saisie */
+        .toggle-panel.toggle-left .input-field {
+            margin-bottom: 20px;
+        }
+        
+        .toggle-panel.toggle-left input[type="text"],
+        .toggle-panel.toggle-left input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+        }
+        
+        .toggle-panel.toggle-left label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
             color: #fff;
         }
+        
+        /* Style pour le bouton */
+        .toggle-panel.toggle-left button {
+            background-color: rgb(255, 13, 13); /* Couleur de fond du bouton */
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+        
+        .toggle-panel.toggle-left button:hover {
+            background-color: rgb(220, 10, 10); /* Couleur au survol */
+        }
+        
+        /* Style pour les messages d'erreur */
+        .toggle-panel.toggle-left .error-message {
+            color: red;
+            margin: 10px 0;
+        }
+        
+        .toggle-panel.toggle-left .error-message p {
+            margin: 0;
+        }
+        
+
+
+
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-light">
-        <a class="navbar-brand mx-auto">WEBRASMA & Digital Ranking</a>
-    </nav>
+    <div class="container {% if form.errors %}active{% endif %}" id="container">
+        
 
-    <div class="wrapper">
-        <form method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <h2>Login</h2>
-            <div class="input-field">
-                <input type="text" id="username" name="username" required autofocus>
-                <label for="username">Enter your username</label>
-            </div>
-            <div class="input-field">
-                <input type="password" id="password" name="password" required>
-                <label for="password">Enter your password</label>
-            </div>
-            <div class="forget">
-                <label for="remember">
-                    <input type="checkbox" id="remember">
-                    <p>Remember me</p>
-                </label>
-                <a href="#">Forgot password?</a>
-            </div>
-            {% if form.non_field_errors %}
-                <div class="error-message">
-                    {% for error in form.non_field_errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <h2>Connexion</h2>
+                        <div class="input-field">
+                            <label for="username">Entrez votre nom d'utilisateur</label>
+                            <input type="text" id="username" name="username" value="{{ request.POST.username }}"required autofocus>
+                            
+                        </div>
+                        <div class="input-field">
+                            <label for="password">Enter votre mot de pass</label>
+                            <input type="password" id="password" name="password" required>
+                            
+                        </div>
+                        
+                        {% if form.non_field_errors %}
+                            <div class="error-message">
+                                {% for error in form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <button type="submit">Se connecter</button>
+                    </form>
+                    
+                    
                 </div>
-            {% endif %}
-            <button type="submit">Log In</button>
-            <div class="register">
-                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                <div class="toggle-panel toggle-right">
+                    <h1>WebRasma & Digital Rankin</h1>
+                    <p>Chaque contact compte. Bienvenue dans votre CRM intelligent.</p>
+                    <button id="signUp">Connectez-vous ici </button>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélection des éléments nécessaires
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn'); // Assurez-vous d'ajouter un bouton avec l'id 'signIn' dans le HTML pour permettre la connexion
+            const container = document.getElementById('container');
+            
+            // Fonction pour afficher la section d'inscription
+            signUpButton.addEventListener('click', () => {
+                container.classList.add('active');
+            });
+            
+            // Fonction pour afficher la section de connexion
+            signInButton.addEventListener('click', () => {
+                container.classList.remove('active');
+            });
+            
+            // Ajout de gestion des erreurs de formulaire
+            const forms = document.querySelectorAll('.toggle-panel form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    const errors = this.querySelectorAll('.error-message p');
+                    if (errors.length > 0) {
+                        event.preventDefault(); // Empêche l'envoi du formulaire en cas d'erreurs
+        
+                        // Assurez-vous que la section avec des erreurs reste visible
+                        if (!container.classList.contains('active')) {
+                            container.classList.add('active'); // Affiche la section active si nécessaire
+                        }
+                    }
+                });
+            });
+        });
+        
+</script>  
+    
 </body>
 
 </html>

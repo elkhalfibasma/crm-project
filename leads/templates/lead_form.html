@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <style>
         /* Importation de la police */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
@@ -90,11 +92,22 @@
         .btn-primary:hover {
             background-color: #1e54d4;
         }
+        .bx-chevron-left-circle {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-right: 20px;
+            margin-top: 5px; /* Fine-tune the position as needed */
+        }
+          
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>{% if lead %}Modifier{% else %}Ajouter{% endif %} un Lead</h1>
+
+        <h1>
+            <span class="bx bx-chevron-left-circle" onclick="window.location.href='{% url 'lead_actions' %}'"></span>
+            {% if lead %}Modifier{% else %}Ajouter{% endif %} un Lead
+        </h1>
         <form method="POST" action="{% if lead %}{% url 'lead_edit' lead.id %}{% else %}{% url 'lead_add' %}{% endif %}">
             {% csrf_token %}
             <div class="form-row">

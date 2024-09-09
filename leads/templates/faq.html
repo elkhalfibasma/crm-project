@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap">
     <style>
@@ -113,7 +114,7 @@
             transition: all 300ms ease-in-out;
         }
 
-        .accordion__title:focus, .accordion__title:focus-visible {
+        .accordion_title:focus, .accordion_title:focus-visible {
             z-index: 3;
             outline: solid rgba(255, 146, 113, 0.5);
             box-shadow: 0 0 0.4rem 0.4rem rgba(161, 72, 45, 0.25);
@@ -163,10 +164,46 @@
             transition: height 1s ease;
         }
 
+        
+       
         .accordion__collapse.open {
-            display: block;
+            max-height: 10rem; /* Ajustez selon la hauteur maximale souhaitée */
+            
         }
-
+        
+        .accordion__title {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.4rem;
+            color: var(--textVeryDarkBlue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.45rem 0.5rem;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .accordion__title:hover {
+            color: var(--textRed);
+        }
+        
+        .accordion__title::after {
+            content: "";
+            display: block;
+            width: 1rem;
+            height: 0.6rem;
+            background-image: url("https://raw.githubusercontent.com/MizAndhre/FAQ-accordion-card/2ff2a02d093554f14d0390a409e825669313a16e/images/icon-arrow-down.svg");
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .accordion__title.open::after {
+            transform: rotate(180deg);
+        }
+        
         @media (min-width: 56em) {
             .card {
                 position: relative;
@@ -187,7 +224,7 @@
                 transform: translateX(-50%) translateY(-50%);
             }
 
-            .card__img, .card__text {
+            .card_img, .card_text {
                 flex: 1;
             }
 
@@ -250,13 +287,24 @@
             font-size: 2.5rem;
             padding-right: 1rem;
         }
+        .bx-x {
+            color: #000;
+            font-size: 3.5rem;
+            cursor: pointer;
+            position: absolute; /* Use absolute positioning for better control */
+            right: 30px; /* Adjust the value as needed */
+            top: 25px; /* Adjust the value as needed */
+        }
     </style>
 </head>
 <body>
     <main>
         <section class="card">
+            <span class="bx bx-x" onclick="window.location.href='{% url 'lead_list' %}'"></span>
+
             <img src="https://raw.githubusercontent.com/MizAndhre/FAQ-accordion-card/2ff2a02d093554f14d0390a409e825669313a16e/images/illustration-box-desktop.svg" alt="Box" class="card__box" />
             <div class="card__img">
+
                 <img class="card__img-mobile" src="https://raw.githubusercontent.com/MizAndhre/FAQ-accordion-card/2ff2a02d093554f14d0390a409e825669313a16e/images/illustration-woman-online-mobile.svg" alt="Woman online Mobile" />
                 <img class="card__img-desktop" src="https://raw.githubusercontent.com/MizAndhre/FAQ-accordion-card/2ff2a02d093554f14d0390a409e825669313a16e/images/illustration-woman-online-desktop.svg" alt="Woman online desktop" />
             </div>
@@ -357,7 +405,8 @@
                 const parent = item.parentElement;
                 const content = parent.querySelector('.accordion__collapse');
                 const isOpen = content.classList.contains('open');
-
+        
+                // Fermer toutes les sections
                 document.querySelectorAll('.accordion__collapse').forEach((el) => {
                     el.classList.remove('open');
                     el.classList.add('collapse');
@@ -365,7 +414,8 @@
                 document.querySelectorAll('.accordion__title').forEach((el) => {
                     el.classList.remove('open');
                 });
-
+        
+                // Ouvrir la section cliquée si elle était fermée
                 if (!isOpen) {
                     content.classList.remove('collapse');
                     content.classList.add('open');
@@ -373,6 +423,8 @@
                 }
             });
         });
+        
+        
     </script>
 </body>
 </html>

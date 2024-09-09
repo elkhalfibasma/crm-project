@@ -1,17 +1,21 @@
+<!-- notifications.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications</title>
 </head>
 <body>
-    <h1>Your Notifications</h1>
+    <h1>Notifications</h1>
     <ul>
         {% for notification in notifications %}
-            <li>{{ notification.message }} - {{ notification.created_at|date:"d M Y H:i" }}</li>
+            <li class="{% if not notification.is_read %}unread{% endif %}">
+                <a href="{{ notification.redirect_url }}">
+                    {{ notification.message }}
+                </a>
+                <small>{{ notification.created_at|date:"d M Y, H:i" }}</small>
+            </li>
         {% empty %}
-            <li>No notifications available.</li>
+            <li>Aucune notification disponible.</li>
         {% endfor %}
     </ul>
 </body>
