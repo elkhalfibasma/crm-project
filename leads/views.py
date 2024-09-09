@@ -15,7 +15,11 @@ from django.utils import timezone
 from datetime import timedelta
 import openpyxl
 from django.db.models import Q
+<<<<<<< HEAD
 from users.models import Announcement
+=======
+#new
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
 from django.db.models.functions import TruncDate 
 from django.db.models import Count
 from django.utils.dateparse import parse_date
@@ -29,6 +33,8 @@ from django.db.models import Count
 from django.utils import timezone
 from .models import Lead
 @login_required
+
+
 def lead_list(request):
     # Get status choices from the Lead model
     statut_choices = Lead._meta.get_field('statut').choices
@@ -86,6 +92,7 @@ def lead_list(request):
 
     # Indiquer si le bouton "Voir plus" doit être affiché
     show_voir_plus = leads.count() == 4
+<<<<<<< HEAD
 
     # Récupérer les 3 rendez-vous les plus imminents
     now = timezone.now()
@@ -114,6 +121,8 @@ def lead_list(request):
         count = next((item['count'] for item in leads_by_month if item['month'].strftime('%B') == month_str), 0)
         counts.append(count)
         announcements = Announcement.objects.all().order_by('-created_at')[:4]
+=======
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
 
     context = {
         'nombre_leads_pris_en_charge': nombre_leads_pris_en_charge,
@@ -125,6 +134,7 @@ def lead_list(request):
         'statut_counts': statut_counts,
         'leads_pending_followup': leads_pending_followup,
         'show_voir_plus': show_voir_plus,  # Pour savoir si afficher le bouton "Voir plus"
+<<<<<<< HEAD
         'upcoming_appointments': upcoming_appointments,  # Ajout des rendez-vous imminents
         'months': months,
         'counts': counts,
@@ -133,6 +143,12 @@ def lead_list(request):
         'notifications_count': notifications_count, # Ajout des annonces au contexte
     }
     return render(request, 'lead_list.html', context)
+=======
+    }
+    return render(request, 'lead_list.html', context)
+
+
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
    
 def faq(request):
     return render(request, 'faq.html')
@@ -147,11 +163,17 @@ def lead_detail(request, lead_id):
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Lead, Interaction
 from .forms import AppelForm
+<<<<<<< HEAD
   # type: ignore # Assurez-vous que cette fonction est correctement définie
+=======
+import openpyxl
+import os
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
 
 @login_required
 def interaction_view(request, lead_id):
     lead = get_object_or_404(Lead, id=lead_id)
+<<<<<<< HEAD
     
     if request.method == "POST":
         form = AppelForm(request.POST)
@@ -160,18 +182,39 @@ def interaction_view(request, lead_id):
             interaction.lead = lead
             interaction.type = 'Appel'  # Explicitly set the type
             interaction.save()
+=======
+
+    if request.method == "POST" and 'appel_form' in request.POST:
+        form = AppelForm(request.POST)
+        if form.is_valid():
+            # Sauvegarde de l'appel dans la base de données
+            appel = form.save(commit=False)
+            appel.lead = lead
+            appel.save()
+
+            # Sauvegarde des informations dans un fichier Excel
+            file_path = save_call_to_excel(lead)
+
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
             return redirect('lead_interactions', lead_id=lead.id)
     else:
         form = AppelForm()
 
     interactions_telephonique = Interaction.objects.filter(lead=lead, type="Appel")
     interactions_email = Interaction.objects.filter(lead=lead, type="Email")
+<<<<<<< HEAD
+=======
+    
+    # Chemin d'accès au fichier Excel
+    file_path = f"media/{lead.id}_interactions_appels.xlsx"
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
 
     return render(request, 'lead_interactions.html', {
         'lead': lead,
         'appel_form': form,
         'interactions_telephonique': interactions_telephonique,
         'interactions_email': interactions_email,
+        'excel_file_path': file_path,
     })
 import os
 import openpyxl
@@ -210,6 +253,37 @@ def save_call_to_excel(lead, cleaned_data):
         sheet.column_dimensions[column_letter].auto_size = True
 
     # Enregistrer le fichier Excel
+    workbook.save(file_path)
+
+    return file_path
+
+def save_call_to_excel(lead):
+    file_path = f"media/{lead.id}_interactions_appels.xlsx"
+
+    try:
+        # Ouvrir le fichier Excel existant
+        workbook = openpyxl.load_workbook(file_path)
+        sheet = workbook.active
+    except FileNotFoundError:
+        # Créer un nouveau fichier Excel s'il n'existe pas
+        workbook = openpyxl.Workbook()
+        sheet = workbook.active
+        # Créer l'en-tête
+        sheet.append(["Lead ID", "Nom", "Prénom", "Date", "Type", "Détails", "Durée", "Commentaires"])
+
+    # Ajouter les détails de l'appel dans une nouvelle ligne
+    sheet.append([
+        lead.id,
+        lead.Nom,
+        lead.Prénom,
+        lead.date,
+        "Appel",
+        lead.details,
+        lead.duree,
+        lead.commentaires,
+    ])
+
+    # Sauvegarder le fichier Excel
     workbook.save(file_path)
 
     return file_path
@@ -379,10 +453,17 @@ def lead_assign(request, lead_id):
     return redirect('lead_list')
 @login_required
 def lead_actions(request):
+<<<<<<< HEAD
     leads = Lead.objects.all()
     
     # Récupérer les paramètres de filtrage
     status_filter = request.GET.get('status', 'all')
+=======
+    # Fetch leads or perform any necessary logic here
+    leads = Lead.objects.all()  # Adjust the query as needed
+    
+    return render(request, 'lead_actions.html', {'leads': leads})
+>>>>>>> 6de254d1d660ee9e443b308423330c4aeddf7179
 
     # Affichage des filtres reçus pour le débogage
     print(f"Status Filter: {status_filter}")
